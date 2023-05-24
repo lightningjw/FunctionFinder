@@ -1,0 +1,6 @@
+framework module Pods_FunctionFinderTests {
+  umbrella header "Pods-FunctionFinderTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
