@@ -17,6 +17,10 @@
 		E871AB342A217327002C369A /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E871AB332A217327002C369A /* ProfileViewController.swift */; };
 		E871AB362A21733C002C369A /* NotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E871AB352A21733C002C369A /* NotificationsViewController.swift */; };
 		E871AB382A21735E002C369A /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E871AB372A21735E002C369A /* CameraViewController.swift */; };
+		E871AB3E2A21835E002C369A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E871AB3D2A21835E002C369A /* GoogleService-Info.plist */; };
+		E871AB432A21895C002C369A /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E871AB422A21895C002C369A /* DatabaseManager.swift */; };
+		E871AB452A218A1A002C369A /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E871AB442A218A1A002C369A /* AuthManager.swift */; };
+		E871AB472A218A3B002C369A /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E871AB462A218A3B002C369A /* StorageManager.swift */; };
 		E8DB7FAD2A1D98920098ED17 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8DB7FAC2A1D98920098ED17 /* AppDelegate.swift */; };
 		E8DB7FAF2A1D98920098ED17 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8DB7FAE2A1D98920098ED17 /* SceneDelegate.swift */; };
 		E8DB7FB12A1D98920098ED17 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8DB7FB02A1D98920098ED17 /* ViewController.swift */; };
@@ -62,6 +66,10 @@
 		E871AB332A217327002C369A /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		E871AB352A21733C002C369A /* NotificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsViewController.swift; sourceTree = "<group>"; };
 		E871AB372A21735E002C369A /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		E871AB3D2A21835E002C369A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E871AB422A21895C002C369A /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		E871AB442A218A1A002C369A /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		E871AB462A218A3B002C369A /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		E8DB7FA92A1D98920098ED17 /* FunctionFinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FunctionFinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8DB7FAC2A1D98920098ED17 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E8DB7FAE2A1D98920098ED17 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -118,8 +126,12 @@
 		E871AB232A216EB5002C369A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E871AB3D2A21835E002C369A /* GoogleService-Info.plist */,
+				E871AB422A21895C002C369A /* DatabaseManager.swift */,
 				E8DB7FAC2A1D98920098ED17 /* AppDelegate.swift */,
 				E8DB7FAE2A1D98920098ED17 /* SceneDelegate.swift */,
+				E871AB442A218A1A002C369A /* AuthManager.swift */,
+				E871AB462A218A3B002C369A /* StorageManager.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -175,7 +187,6 @@
 			children = (
 				E871AB2A2A217025002C369A /* LoginViewController.swift */,
 				E871AB2C2A21703E002C369A /* RegistrationViewController.swift */,
-				E871AB2F2A217086002C369A /* PostViewController.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -183,9 +194,18 @@
 		E871AB2E2A217068002C369A /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				E871AB412A218829002C369A /* General */,
 				E871AB292A216FDF002C369A /* Onboarding */,
 			);
 			path = Other;
+			sourceTree = "<group>";
+		};
+		E871AB412A218829002C369A /* General */ = {
+			isa = PBXGroup;
+			children = (
+				E871AB2F2A217086002C369A /* PostViewController.swift */,
+			);
+			path = General;
 			sourceTree = "<group>";
 		};
 		E8DB7FA02A1D98920098ED17 = {
@@ -264,6 +284,7 @@
 				E8DB7FA62A1D98920098ED17 /* Frameworks */,
 				E8DB7FA72A1D98920098ED17 /* Resources */,
 				989DFEB7177064C3F61874E5 /* [CP] Copy Pods Resources */,
+				8E777696619C9C699E924DF4 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -302,6 +323,7 @@
 				E8DB7FC62A1D98950098ED17 /* Frameworks */,
 				E8DB7FC72A1D98950098ED17 /* Resources */,
 				A050C4F496DD4548FACCD584 /* [CP] Copy Pods Resources */,
+				5860A137FB9A5D0EB7C100FC /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -361,6 +383,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E871AB3E2A21835E002C369A /* GoogleService-Info.plist in Resources */,
 				E8DB7FB92A1D98940098ED17 /* LaunchScreen.storyboard in Resources */,
 				E8DB7FB62A1D98940098ED17 /* Assets.xcassets in Resources */,
 				E8DB7FB42A1D98920098ED17 /* Main.storyboard in Resources */,
@@ -406,6 +429,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		5860A137FB9A5D0EB7C100FC /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FunctionFinder-FunctionFinderUITests/Pods-FunctionFinder-FunctionFinderUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FunctionFinder-FunctionFinderUITests/Pods-FunctionFinder-FunctionFinderUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FunctionFinder-FunctionFinderUITests/Pods-FunctionFinder-FunctionFinderUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		7CF6548AD9365D60F6586AE4 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -426,6 +466,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8E777696619C9C699E924DF4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FunctionFinder/Pods-FunctionFinder-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FunctionFinder/Pods-FunctionFinder-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FunctionFinder/Pods-FunctionFinder-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		989DFEB7177064C3F61874E5 /* [CP] Copy Pods Resources */ = {
@@ -492,6 +549,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				E871AB362A21733C002C369A /* NotificationsViewController.swift in Sources */,
+				E871AB452A218A1A002C369A /* AuthManager.swift in Sources */,
+				E871AB432A21895C002C369A /* DatabaseManager.swift in Sources */,
 				E871AB382A21735E002C369A /* CameraViewController.swift in Sources */,
 				E871AB342A217327002C369A /* ProfileViewController.swift in Sources */,
 				E871AB302A217086002C369A /* PostViewController.swift in Sources */,
@@ -501,6 +560,7 @@
 				E8DB7FAF2A1D98920098ED17 /* SceneDelegate.swift in Sources */,
 				E871AB322A21730A002C369A /* ExploreViewController.swift in Sources */,
 				E871AB2D2A21703E002C369A /* RegistrationViewController.swift in Sources */,
+				E871AB472A218A3B002C369A /* StorageManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

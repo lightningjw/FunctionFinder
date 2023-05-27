@@ -8,6 +8,7 @@
 import UIKit
 import GoogleMaps
 import CoreLocation
+import FirebaseAuth
 
 class ViewController: UIViewController, CLLocationManagerDelegate {
     
@@ -22,6 +23,21 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         GMSServices.provideAPIKey("AIzaSyBzl-jZ74yYVJH6-jeKpKnBgsYUoQnmzJc")
         
         print("License: \n\n\(GMSServices.openSourceLicenseInfo())")
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        handleNotAuthenticated()
+    }
+    
+    private func handleNotAuthenticated() {
+        // Check auth status
+        if Auth.auth().currentUser == nil {
+            // Show log in
+            let loginVC = LoginViewController()
+            loginVC.modalPresentationStyle = .fullScreen
+            present(loginVC, animated: false)
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
