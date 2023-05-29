@@ -52,13 +52,6 @@
   [self didChangeSwitcher];
 }
 
-- (void)viewWillLayoutSubviews {
-  [super viewWillLayoutSubviews];
-  // Re-show level picker.
-  self.navigationItem.titleView = nil;
-  self.navigationItem.titleView = _switcher;
-}
-
 - (void)didChangeSwitcher {
   NSString *title = [_switcher titleForSegmentAtIndex:_switcher.selectedSegmentIndex];
   NSInteger floor = [title integerValue];
