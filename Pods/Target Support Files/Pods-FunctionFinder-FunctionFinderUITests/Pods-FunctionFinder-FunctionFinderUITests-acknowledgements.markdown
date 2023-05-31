@@ -3064,6 +3064,10 @@ Copyright 2022 Google
 
 Copyright 2023 Google
 
+## GooglePlaces
+
+Copyright 2023 Google
+
 ## GoogleUtilities
 
 
