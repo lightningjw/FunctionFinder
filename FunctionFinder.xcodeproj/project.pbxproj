@@ -10,6 +10,7 @@
 		29B37DC1854B76942DF0113D /* Pods_FunctionFinder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B10DC22451E1BF61A3000A6C /* Pods_FunctionFinder.framework */; };
 		2A0E1FD9490CE9A43833EAA0 /* Pods_FunctionFinderTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C25F76ECEEED06A6AAD3595 /* Pods_FunctionFinderTests.framework */; };
 		D90DE90B9531769E3CA07DC0 /* Pods_FunctionFinder_FunctionFinderUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C8779C9A5617F9F0486244B /* Pods_FunctionFinder_FunctionFinderUITests.framework */; };
+		E838D42E2A26CAB10020FCE3 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E838D42D2A26CAB10020FCE3 /* SettingsViewController.swift */; };
 		E871AB2B2A217025002C369A /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E871AB2A2A217025002C369A /* LoginViewController.swift */; };
 		E871AB2D2A21703E002C369A /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E871AB2C2A21703E002C369A /* RegistrationViewController.swift */; };
 		E871AB302A217086002C369A /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E871AB2F2A217086002C369A /* PostViewController.swift */; };
@@ -60,6 +61,7 @@
 		B10DC22451E1BF61A3000A6C /* Pods_FunctionFinder.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FunctionFinder.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5E732AD91F894A8064B8925 /* Pods-FunctionFinder-FunctionFinderUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FunctionFinder-FunctionFinderUITests.debug.xcconfig"; path = "Target Support Files/Pods-FunctionFinder-FunctionFinderUITests/Pods-FunctionFinder-FunctionFinderUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		DE56A78E49D175A1EFED0466 /* Pods-FunctionFinder-FunctionFinderUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FunctionFinder-FunctionFinderUITests.release.xcconfig"; path = "Target Support Files/Pods-FunctionFinder-FunctionFinderUITests/Pods-FunctionFinder-FunctionFinderUITests.release.xcconfig"; sourceTree = "<group>"; };
+		E838D42D2A26CAB10020FCE3 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		E871AB2A2A217025002C369A /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		E871AB2C2A21703E002C369A /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		E871AB2F2A217086002C369A /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
@@ -177,10 +179,10 @@
 			isa = PBXGroup;
 			children = (
 				E8DB7FB02A1D98920098ED17 /* ViewController.swift */,
-				E871AB372A21735E002C369A /* CameraViewController.swift */,
 				E871AB312A21730A002C369A /* ExploreViewController.swift */,
-				E871AB332A217327002C369A /* ProfileViewController.swift */,
+				E871AB372A21735E002C369A /* CameraViewController.swift */,
 				E871AB352A21733C002C369A /* NotificationsViewController.swift */,
+				E871AB332A217327002C369A /* ProfileViewController.swift */,
 			);
 			path = "Core Tabs";
 			sourceTree = "<group>";
@@ -207,6 +209,7 @@
 			isa = PBXGroup;
 			children = (
 				E871AB2F2A217086002C369A /* PostViewController.swift */,
+				E838D42D2A26CAB10020FCE3 /* SettingsViewController.swift */,
 			);
 			path = General;
 			sourceTree = "<group>";
@@ -559,6 +562,7 @@
 				E871AB302A217086002C369A /* PostViewController.swift in Sources */,
 				E871AB2B2A217025002C369A /* LoginViewController.swift in Sources */,
 				E8DB7FB12A1D98920098ED17 /* ViewController.swift in Sources */,
+				E838D42E2A26CAB10020FCE3 /* SettingsViewController.swift in Sources */,
 				E8DB7FAD2A1D98920098ED17 /* AppDelegate.swift in Sources */,
 				E8DB7FAF2A1D98920098ED17 /* SceneDelegate.swift in Sources */,
 				E871AB322A21730A002C369A /* ExploreViewController.swift in Sources */,
