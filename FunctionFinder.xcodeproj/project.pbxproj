@@ -27,6 +27,7 @@
 		E8BC2F3C2A27F65E0070B1CB /* CustomMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8BC2F3B2A27F65E0070B1CB /* CustomMarkerView.swift */; };
 		E8BC2F3F2A27F8350070B1CB /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8BC2F3E2A27F8350070B1CB /* PreviewView.swift */; };
 		E8BC2F412A27FCDD0070B1CB /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8BC2F402A27FCDD0070B1CB /* DetailsViewController.swift */; };
+		E8C82F632A294582008AA927 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C82F622A294582008AA927 /* EditProfileViewController.swift */; };
 		E8DB7FAD2A1D98920098ED17 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8DB7FAC2A1D98920098ED17 /* AppDelegate.swift */; };
 		E8DB7FAF2A1D98920098ED17 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8DB7FAE2A1D98920098ED17 /* SceneDelegate.swift */; };
 		E8DB7FB12A1D98920098ED17 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8DB7FB02A1D98920098ED17 /* MapViewController.swift */; };
@@ -82,6 +83,7 @@
 		E8BC2F3B2A27F65E0070B1CB /* CustomMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMarkerView.swift; sourceTree = "<group>"; };
 		E8BC2F3E2A27F8350070B1CB /* PreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
 		E8BC2F402A27FCDD0070B1CB /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
+		E8C82F622A294582008AA927 /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		E8DB7FA92A1D98920098ED17 /* FunctionFinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FunctionFinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8DB7FAC2A1D98920098ED17 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E8DB7FAE2A1D98920098ED17 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 			isa = PBXGroup;
 			children = (
 				E871AB2F2A217086002C369A /* PostViewController.swift */,
+				E8C82F622A294582008AA927 /* EditProfileViewController.swift */,
 				E838D42D2A26CAB10020FCE3 /* SettingsViewController.swift */,
 			);
 			path = General;
@@ -590,6 +593,7 @@
 				E871AB342A217327002C369A /* ProfileViewController.swift in Sources */,
 				E871AB302A217086002C369A /* PostViewController.swift in Sources */,
 				E871AB2B2A217025002C369A /* LoginViewController.swift in Sources */,
+				E8C82F632A294582008AA927 /* EditProfileViewController.swift in Sources */,
 				E8DB7FB12A1D98920098ED17 /* MapViewController.swift in Sources */,
 				E838D42E2A26CAB10020FCE3 /* SettingsViewController.swift in Sources */,
 				E8DB7FAD2A1D98920098ED17 /* AppDelegate.swift in Sources */,
