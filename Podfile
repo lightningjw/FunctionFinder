@@ -10,6 +10,7 @@ pod 'GooglePlaces'
 #pod 'GooglePlacePicker'
 pod 'GoogleUtilities'
 pod 'Appirater'
+pod 'SDWebImage'
 
 # Firebase
 pod 'Firebase/Core'
