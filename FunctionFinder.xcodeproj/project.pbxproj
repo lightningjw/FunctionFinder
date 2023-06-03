@@ -24,6 +24,10 @@
 		E871AB452A218A1A002C369A /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E871AB442A218A1A002C369A /* AuthManager.swift */; };
 		E871AB472A218A3B002C369A /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E871AB462A218A3B002C369A /* StorageManager.swift */; };
 		E871AB492A21A660002C369A /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E871AB482A21A660002C369A /* Extensions.swift */; };
+		E88EB32C2A2AB2CC005D7105 /* FormTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88EB32B2A2AB2CC005D7105 /* FormTableViewCell.swift */; };
+		E88EB32F2A2ABD21005D7105 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88EB32E2A2ABD21005D7105 /* PhotoCollectionViewCell.swift */; };
+		E88EB3312A2ABD6B005D7105 /* ProfileInfoHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88EB3302A2ABD6B005D7105 /* ProfileInfoHeaderCollectionReusableView.swift */; };
+		E88EB3332A2ABD97005D7105 /* ProfileTabsCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88EB3322A2ABD97005D7105 /* ProfileTabsCollectionReusableView.swift */; };
 		E8BC2F3C2A27F65E0070B1CB /* CustomMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8BC2F3B2A27F65E0070B1CB /* CustomMarkerView.swift */; };
 		E8BC2F3F2A27F8350070B1CB /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8BC2F3E2A27F8350070B1CB /* PreviewView.swift */; };
 		E8BC2F412A27FCDD0070B1CB /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8BC2F402A27FCDD0070B1CB /* DetailsViewController.swift */; };
@@ -80,6 +84,10 @@
 		E871AB442A218A1A002C369A /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		E871AB462A218A3B002C369A /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		E871AB482A21A660002C369A /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		E88EB32B2A2AB2CC005D7105 /* FormTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormTableViewCell.swift; sourceTree = "<group>"; };
+		E88EB32E2A2ABD21005D7105 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
+		E88EB3302A2ABD6B005D7105 /* ProfileInfoHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
+		E88EB3322A2ABD97005D7105 /* ProfileTabsCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTabsCollectionReusableView.swift; sourceTree = "<group>"; };
 		E8BC2F3B2A27F65E0070B1CB /* CustomMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMarkerView.swift; sourceTree = "<group>"; };
 		E8BC2F3E2A27F8350070B1CB /* PreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
 		E8BC2F402A27FCDD0070B1CB /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
@@ -141,6 +149,8 @@
 			isa = PBXGroup;
 			children = (
 				E838D4302A26E1720020FCE3 /* FeedPostTableViewCell.swift */,
+				E88EB32B2A2AB2CC005D7105 /* FormTableViewCell.swift */,
+				E88EB32E2A2ABD21005D7105 /* PhotoCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -169,6 +179,7 @@
 		E871AB252A216EC3002C369A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E88EB32D2A2ABCD8005D7105 /* CollectionView Headers */,
 				E8BC2F3D2A27F81A0070B1CB /* Marker */,
 				E838D42F2A26E1480020FCE3 /* Cells */,
 				E871AB272A216F15002C369A /* Storyboards */,
@@ -233,6 +244,15 @@
 				E838D42D2A26CAB10020FCE3 /* SettingsViewController.swift */,
 			);
 			path = General;
+			sourceTree = "<group>";
+		};
+		E88EB32D2A2ABCD8005D7105 /* CollectionView Headers */ = {
+			isa = PBXGroup;
+			children = (
+				E88EB3302A2ABD6B005D7105 /* ProfileInfoHeaderCollectionReusableView.swift */,
+				E88EB3322A2ABD97005D7105 /* ProfileTabsCollectionReusableView.swift */,
+			);
+			path = "CollectionView Headers";
 			sourceTree = "<group>";
 		};
 		E8BC2F3D2A27F81A0070B1CB /* Marker */ = {
@@ -592,17 +612,21 @@
 				E871AB382A21735E002C369A /* CameraViewController.swift in Sources */,
 				E871AB342A217327002C369A /* ProfileViewController.swift in Sources */,
 				E871AB302A217086002C369A /* PostViewController.swift in Sources */,
+				E88EB3332A2ABD97005D7105 /* ProfileTabsCollectionReusableView.swift in Sources */,
 				E871AB2B2A217025002C369A /* LoginViewController.swift in Sources */,
 				E8C82F632A294582008AA927 /* EditProfileViewController.swift in Sources */,
+				E88EB32F2A2ABD21005D7105 /* PhotoCollectionViewCell.swift in Sources */,
 				E8DB7FB12A1D98920098ED17 /* MapViewController.swift in Sources */,
 				E838D42E2A26CAB10020FCE3 /* SettingsViewController.swift in Sources */,
 				E8DB7FAD2A1D98920098ED17 /* AppDelegate.swift in Sources */,
 				E8BC2F3F2A27F8350070B1CB /* PreviewView.swift in Sources */,
+				E88EB32C2A2AB2CC005D7105 /* FormTableViewCell.swift in Sources */,
 				E8BC2F3C2A27F65E0070B1CB /* CustomMarkerView.swift in Sources */,
 				E8BC2F412A27FCDD0070B1CB /* DetailsViewController.swift in Sources */,
 				E8DB7FAF2A1D98920098ED17 /* SceneDelegate.swift in Sources */,
 				E871AB322A21730A002C369A /* ExploreViewController.swift in Sources */,
 				E871AB2D2A21703E002C369A /* RegistrationViewController.swift in Sources */,
+				E88EB3312A2ABD6B005D7105 /* ProfileInfoHeaderCollectionReusableView.swift in Sources */,
 				E871AB472A218A3B002C369A /* StorageManager.swift in Sources */,
 				E871AB492A21A660002C369A /* Extensions.swift in Sources */,
 			);
