@@ -13,7 +13,7 @@ class ListViewController: UIViewController {
     
     private let tableView: UITableView = {
         let tableView = UITableView()
-        tableView.register(UITableViewCell.self,
+        tableView.register(UserFollowTableViewCell.self,
                            forCellReuseIdentifier: UserFollowTableViewCell.identifier)
         return tableView
     }()
