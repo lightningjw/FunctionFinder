@@ -46,6 +46,7 @@ final class NotificationsViewController: UIViewController, UITableViewDelegate, 
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchNotifications()
+        title = "Notifications"
         navigationItem.title = "Notifications"
         view.backgroundColor = .systemBackground
         view.addSubview(spinner)
@@ -65,13 +66,15 @@ final class NotificationsViewController: UIViewController, UITableViewDelegate, 
     private func fetchNotifications() {
         for x in 0...100 {
             let user = User(username: "joe",
-                            bio: "",
-                            name: (first: "", last: ""),
-                            profilePhoto: URL(string: "https://www.google.com")!,
-                            birthDate: Date(),
-                            gender: .male,
-                            counts: UserCount(followers: 1, following: 1, posts: 1),
-                            joinDate: Date())
+                            email: "joe@gmail.com"
+//                            bio: "",
+//                            name: (first: "", last: ""),
+//                            profilePhoto: URL(string: "https://www.google.com")!,
+//                            birthDate: Date(),
+//                            gender: .male,
+//                            counts: UserCount(followers: 1, following: 1, posts: 1),
+//                            joinDate: Date()
+                            )
             let post = UserPost(identifier: "",
                                 postType: .photo,
                                 thumbnailImage: URL(string: "https://www.google.com")!,

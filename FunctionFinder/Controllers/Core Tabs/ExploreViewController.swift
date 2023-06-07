@@ -32,6 +32,7 @@ class ExploreViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "Explore"
         view.backgroundColor = .systemBackground
         configureSearchBar()
         configureExploreCollection()
@@ -176,13 +177,15 @@ extension ExploreViewController: UICollectionViewDelegate, UICollectionViewDataS
         }
 //        let model = models[indexPath.row]
         let user = User(username: "joe",
-                        bio: "",
-                        name: (first: "", last: ""),
-                        profilePhoto: URL(string: "https://www.google.com")!,
-                        birthDate: Date(),
-                        gender: .male,
-                        counts: UserCount(followers: 1, following: 1, posts: 1),
-                        joinDate: Date())
+                        email: "joe@gmail.com"
+//                        bio: "",
+//                        name: (first: "", last: ""),
+//                        profilePhoto: URL(string: "https://www.google.com")!,
+//                        birthDate: Date(),
+//                        gender: .male,
+//                        counts: UserCount(followers: 1, following: 1, posts: 1),
+//                        joinDate: Date()
+        )
         let post = UserPost(identifier: "",
                             postType: .photo,
                             thumbnailImage: URL(string: "https://www.google.com")!,

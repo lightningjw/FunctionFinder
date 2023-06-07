@@ -36,7 +36,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, GMSMapView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Home"
+        self.title = "Map"
         self.view.backgroundColor = UIColor.systemBackground
         myMapView.delegate = self
         

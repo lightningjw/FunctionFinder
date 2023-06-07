@@ -14,6 +14,7 @@ pod 'SDWebImage'
 
 # Firebase
 pod 'Firebase/Core'
+pod 'Firebase/Firestore'
 pod 'FirebaseCoreExtension'
 pod 'Firebase/Auth'
 pod 'Firebase/Database'

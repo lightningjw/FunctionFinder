@@ -6,59 +6,47 @@
 //
 
 import UIKit
+import SafariServices
 
-class RegistrationViewController: UIViewController {
+class RegistrationViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    struct Constants{
-        static let cornerRadius: CGFloat = 8.0
-    }
+    // Subviews
+    
+    private let profilePictureImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.tintColor = .lightGray
+        imageView.image = UIImage(systemName: "person.circle")
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.masksToBounds = true
+        imageView.layer.cornerRadius = 45
+        return imageView
+    }()
 
-    private let usernameField: UITextField = {
-        let field = UITextField()
+    private let usernameField: TextField = {
+        let field = TextField()
         field.placeholder = "Username..."
         field.returnKeyType = .next
-        field.leftViewMode = .always
-        field.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
-        field.autocapitalizationType = .none
+        field.keyboardType = .default
         field.autocorrectionType = .no
-        field.layer.masksToBounds = true
-        field.layer.cornerRadius = Constants.cornerRadius
-        field.backgroundColor = .secondarySystemBackground
-        field.layer.borderWidth = 1.0
-        field.layer.borderColor = UIColor.secondaryLabel.cgColor
         return field
     }()
     
-    private let emailField: UITextField = {
-        let field = UITextField()
-        field.placeholder = "Email..."
+    private let emailField: TextField = {
+        let field = TextField()
+        field.placeholder = "Email Address..."
         field.returnKeyType = .next
-        field.leftViewMode = .always
-        field.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
-        field.autocapitalizationType = .none
+        field.keyboardType = .emailAddress
         field.autocorrectionType = .no
-        field.layer.masksToBounds = true
-        field.layer.cornerRadius = Constants.cornerRadius
-        field.backgroundColor = .secondarySystemBackground
-        field.layer.borderWidth = 1.0
-        field.layer.borderColor = UIColor.secondaryLabel.cgColor
         return field
     }()
     
-    private let passwordField: UITextField = {
-        let field = UITextField()
+    private let passwordField: TextField = {
+        let field = TextField()
         field.isSecureTextEntry = true
         field.placeholder = "Password..."
         field.returnKeyType = .continue
-        field.leftViewMode = .always
-        field.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
-        field.autocapitalizationType = .none
+        field.keyboardType = .default
         field.autocorrectionType = .no
-        field.layer.masksToBounds = true
-        field.layer.cornerRadius = Constants.cornerRadius
-        field.backgroundColor = .secondarySystemBackground
-        field.layer.borderWidth = 1.0
-        field.layer.borderColor = UIColor.secondaryLabel.cgColor
         return field
     }()
     
@@ -66,35 +54,105 @@ class RegistrationViewController: UIViewController {
         let button = UIButton()
         button.setTitle("Sign Up", for: .normal)
         button.layer.masksToBounds = true
-        button.layer.cornerRadius = Constants.cornerRadius
+        button.layer.cornerRadius = 8
         button.backgroundColor = .systemGreen
         button.setTitleColor(.white, for: .normal)
         return button
     }()
     
+    private let termsButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Terms of Service", for: .normal)
+        button.setTitleColor(.secondaryLabel, for: .normal)
+        return button
+    }()
+    
+    private let privacyButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Privacy Policy", for: .normal)
+        button.setTitleColor(.secondaryLabel, for: .normal)
+        return button
+    }()
+    
+    public var completion: (() -> Void)?
+    
+    // MARK: - Lifestyle00
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        registerButton.addTarget(self,
-                                 action: #selector(didTapRegister),
-                                 for: .touchUpInside)
+        title = "Create Account"
+        view.backgroundColor = .systemBackground
         usernameField.delegate = self
         emailField.delegate = self
         passwordField.delegate = self
-        view.addSubview(usernameField)
-        view.addSubview(emailField)
-        view.addSubview(passwordField)
-        view.addSubview(registerButton)
-        
-        view.backgroundColor = .systemBackground
+        addSubviews()
+        addButtonActions()
+        addImageGesture()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        let imageSize: CGFloat = 90
+    
+        profilePictureImageView.frame = CGRect(x: (view.width - imageSize)/2, y: view.safeAreaInsets.top + 15, width: imageSize, height: imageSize)
+        usernameField.frame = CGRect(x: 25, y: profilePictureImageView.bottom + 20, width: view.width - 50, height: 50)
+        emailField.frame = CGRect(x: 25, y: usernameField.bottom + 10, width: view.width - 50, height: 50)
+        passwordField.frame = CGRect(x: 25, y: emailField.bottom + 10, width: view.width - 50, height: 50)
+        registerButton.frame = CGRect(x: 25, y: passwordField.bottom + 20, width: view.width - 50, height: 50)
+        termsButton.frame = CGRect(x: 10, y: view.height - view.safeAreaInsets.bottom - 100, width: view.width - 20, height: 50)
+        privacyButton.frame = CGRect(x: 10, y: view.height - view.safeAreaInsets.bottom - 50, width: view.width - 20, height: 50)
+    }
+    
+    private func addSubviews(){
+        view.addSubview(profilePictureImageView)
+        view.addSubview(usernameField)
+        view.addSubview(emailField)
+        view.addSubview(passwordField)
+        view.addSubview(registerButton)
+        view.addSubview(termsButton)
+        view.addSubview(privacyButton)
+    }
+    
+    private func addImageGesture() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapImage))
+        profilePictureImageView.isUserInteractionEnabled = true
+        profilePictureImageView.addGestureRecognizer(tap)
+    }
+    
+    private func addButtonActions(){
+        registerButton.addTarget(self, action: #selector(didTapRegister), for: .touchUpInside)
+        termsButton.addTarget(self, action: #selector(didTapTermsButton), for: .touchUpInside)
+        privacyButton.addTarget(self, action: #selector(didTapPrivacyButton), for: .touchUpInside)
+    }
+    
+    // MARK: - Actions
+    
+    @objc func didTapImage() {
+        let sheet = UIAlertController(title: "Profile Picture",
+                                      message: "Set a picture to help your friends find you.",
+                                      preferredStyle: .actionSheet)
         
-        usernameField.frame = CGRect(x: 20, y: view.safeAreaInsets.top + 100, width: view.width - 40, height: 52)
-        emailField.frame = CGRect(x: 20, y: usernameField.bottom + 10, width: view.width - 40, height: 52)
-        passwordField.frame = CGRect(x: 20, y: emailField.bottom + 10, width: view.width - 40, height: 52)
-        registerButton.frame = CGRect(x: 20, y: passwordField.bottom + 10, width: view.width - 40, height: 52)
+        sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        sheet.addAction(UIAlertAction(title: "Take Photo", style: .default, handler: { [weak self] _ in
+            DispatchQueue.main.async {
+                let picker = UIImagePickerController()
+                picker.sourceType = .camera
+                picker.allowsEditing = true
+                picker.delegate = self
+                self?.present(picker, animated: true)
+            }
+        }))
+        sheet.addAction(UIAlertAction(title: "Choose Photo", style: .default, handler: { [weak self] _ in
+            DispatchQueue.main.async {
+                let picker = UIImagePickerController()
+                picker.allowsEditing = true
+                picker.sourceType = .photoLibrary
+                picker.delegate = self
+                self?.present(picker, animated: true)
+            }
+        }))
+        
+        present(sheet, animated: true)
     }
     
     @objc private func didTapRegister() {
@@ -102,26 +160,62 @@ class RegistrationViewController: UIViewController {
         usernameField.resignFirstResponder()
         passwordField.resignFirstResponder()
         
-        guard let email = emailField.text, !email.isEmpty,
-              let password = passwordField.text, !password.isEmpty, password.count >= 8,
-              let username = usernameField.text, !username.isEmpty else {
-                return
+        guard let email = emailField.text,
+              let username = usernameField.text,
+              let password = passwordField.text,
+              !email.trimmingCharacters(in: .whitespaces).isEmpty,
+              !username.trimmingCharacters(in: .whitespaces).isEmpty,
+              !password.trimmingCharacters(in: .whitespaces).isEmpty,
+              password.count >= 6,
+              username.trimmingCharacters(in: .alphanumerics).isEmpty
+        else {
+            presentError()
+            return
         }
         
-        AuthManager.shared.registerNewUser(username: username, email: email, password: password) { registered in
+        let data = profilePictureImageView.image?.pngData()
+        
+        // Sign up with AuthManager
+        AuthManager.shared.registerNewUser(username: username, email: email, password: password, profilePicture: data) { [weak self] registered in
             DispatchQueue.main.async {
-                if registered {
-                    // good to go
-                }
-                else {
-                    // failed
+                switch registered {
+                case .success(let user):
+                    UserDefaults.standard.setValue(user.email, forKey: "email")
+                    UserDefaults.standard.setValue(user.username, forKey: "username")
+                    
+                    self?.navigationController?.popToRootViewController(animated: true)
+                    self?.completion?()
+                case .failure(let error):
+                    print("\n\nSign Up Error: \(error)")
                 }
             }
         }
     }
-}
+    
+    private func presentError() {
+        let alert = UIAlertController(title: "Whoops", message: "Please make sure to fill all fields and have a password longer than 6 characters.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+        present(alert, animated: true)
+    }
+    
+    @objc private func didTapTermsButton() {
+        guard let url = URL(string: "https://help.instagram.com/581066165581870") else {
+            return
+        }
+        let vc = SFSafariViewController(url: url)
+        present(vc, animated: true)
+    }
+    
+    @objc private func didTapPrivacyButton() {
+        guard let url = URL(string: "https://help.instagram.com/155833707900388") else {
+            return
+        }
+        let vc = SFSafariViewController(url: url)
+        present(vc, animated: true)
+    }
 
-extension RegistrationViewController: UITextFieldDelegate{
+    // MARK: Field Delegate
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == usernameField {
             emailField.becomeFirstResponder()
@@ -130,9 +224,22 @@ extension RegistrationViewController: UITextFieldDelegate{
             passwordField.becomeFirstResponder()
         }
         else {
+            textField.resignFirstResponder()
             didTapRegister()
         }
-        
         return true
+    }
+    
+    // Image Picker
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true, completion: nil)
+        guard let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else {
+            return
+        }
+        profilePictureImageView.image = image
     }
 }
