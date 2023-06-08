@@ -13,19 +13,26 @@ class TabBarViewController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setUpControllers()
     }
     
     private func setUpControllers() {
+        guard let email = UserDefaults.standard.string(forKey: "email"),
+              let username = UserDefaults.standard.string(forKey: "username") else {
+            return
+        }
         
+        let currentUser = User(
+            username: username,
+            email: email
+        )
         
         // Define VCs
         let map = MapViewController()
         let explore = ExploreViewController()
         let camera = CameraViewController()
         let activity = NotificationsViewController()
-        let profile = ProfileViewController()
+        let profile = ProfileViewController(user: currentUser)
         
         let nav1 = UINavigationController(rootViewController: map)
         let nav2 = UINavigationController(rootViewController: explore)

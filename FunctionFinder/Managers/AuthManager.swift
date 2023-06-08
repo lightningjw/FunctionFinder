@@ -18,30 +18,33 @@ final class AuthManager {
     
     enum AuthError: Error {
         case newUserCreation
+        case loginFailed
     }
     
     public var isLoggedIn: Bool {
         return auth.currentUser != nil
     }
     
-//    public func loginUser(username: String?, email: String?, password: String, completion: @escaping (Result<User,Error>) -> Void){
-//        if let email = email {
-//            // phone log in
-//            Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
-//                guard authResult != nil, error == nil else {
-//                    completion(false)
-//                    return
-//                }
-//                
-//                completion(true)
-//            }
-//        }
-//        else if let username = username {
-//            // username log in
-//            print(username)
-//        }
-//    }
-//    
+    public func loginUser(email: String, password: String, completion: @escaping (Result<User,Error>) -> Void){
+        DatabaseManager.shared.findUser(with: email) { [weak self] user in
+            guard let user = user else {
+                completion(.failure(AuthError.loginFailed))
+                return
+            }
+            
+            self?.auth.signIn(withEmail: email, password: password) { result, error in
+                guard result != nil, error == nil else {
+                    completion(.failure(AuthError.loginFailed))
+                    return
+                }
+                
+                UserDefaults.standard.setValue(user.username, forKey: "username")
+                UserDefaults.standard.setValue(user.email, forKey: "email")
+                completion(.success(user))
+            }
+        }
+    }
+    
     public func registerNewUser(username: String, email: String, password: String, profilePicture: Data?, completion: @escaping (Result<User,Error>) -> Void){
         let newUser = User(username: username, email: email)
         auth.createUser(withEmail: email, password: password) { result, error in
@@ -73,10 +76,9 @@ final class AuthManager {
     }
 }
     
-    /// Attempt to log out firebase user
-    public func logOut(completion: (Bool) -> Void) {
+    public func logOut(completion: @escaping (Bool) -> Void) {
         do {
-            try Auth.auth().signOut()
+            try auth.signOut()
             completion(true)
             return
         }

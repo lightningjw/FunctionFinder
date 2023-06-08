@@ -13,9 +13,30 @@ final class ProfileViewController: UIViewController {
     private var collectionView: UICollectionView?
     
     private var userPosts = [UserPost]()
+    
+    private let user: User
+    
+    private var isCurrentUser: Bool {
+        return user.username.lowercased() == UserDefaults.standard.string(forKey: "username")?.lowercased() ?? ""
+    }
+    
+    // MARK: - Init
+    
+    init (user: User) {
+        self.user = user
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
+    
+    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = user.username.uppercased()
+//        title = "Profile"
         view.backgroundColor = .systemBackground
         configureNavigationBar()
         
@@ -50,17 +71,22 @@ final class ProfileViewController: UIViewController {
         collectionView?.frame = view.bounds
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+    
     private func configureNavigationBar() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear"),
-                                                            style: .done,
-                                                            target: self,
-                                                            action: #selector(didTapSettingsButton))
+        if isCurrentUser {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear"),
+                                                                style: .done,
+                                                                target: self,
+                                                                action: #selector(didTapSettingsButton))
+        }
     }
     
     @objc private func didTapSettingsButton() {
         let vc = SettingsViewController()
-        vc.title = "Settings"
-        navigationController?.pushViewController(vc, animated: true)
+        present(UINavigationController(rootViewController: vc), animated: true)
     }
 
 }

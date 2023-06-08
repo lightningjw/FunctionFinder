@@ -187,13 +187,15 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         usernameEmailField.resignFirstResponder()
         passwordField.resignFirstResponder()
         
-        guard let usernameEmail = usernameEmailField.text,
+        guard let email = usernameEmailField.text,
               let password = passwordField.text,
-              !usernameEmail.trimmingCharacters(in: .whitespaces).isEmpty,
+              !email.trimmingCharacters(in: .whitespaces).isEmpty,
               !password.trimmingCharacters(in: .whitespaces).isEmpty,
               password.count >= 6 else {
             return
         }
+        
+        // Sign in with authManager
         
 //        var username: String?
 //        var email: String?
@@ -208,24 +210,28 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 //            username = usernameEmail
 //        }
 //
-//        AuthManager.shared.loginUser(username: username, email: email, password: password) { success in
-//            DispatchQueue.main.async {
-//                if success {
-//                    // user logged in
-//                    self.dismiss(animated: true, completion: nil)
-//                }
-//                else {
-//                    //error occured
-//                    let alert = UIAlertController(title: "Log In Error",
-//                                                  message: "We were unable to log you in.",
-//                                                  preferredStyle: .alert)
-//                    alert.addAction(UIAlertAction(title: "Dismiss",
-//                                                  style: .cancel,
-//                                                  handler: nil))
-//                    self.present(alert, animated: true)
-//                }
-//            }
-//        }
+        AuthManager.shared.loginUser(email: email, password: password) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result{
+                case .success:
+                    // user logged in
+                    let vc = TabBarViewController()
+                    vc.modalPresentationStyle = .fullScreen
+                    self?.present(vc,
+                                  animated: true,
+                                  completion: nil)
+                case .failure (let error):
+                    //error occured
+                    let alert = UIAlertController(title: "Log In Error",
+                                                  message: "We were unable to log you in.",
+                                                  preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss",
+                                                  style: .cancel,
+                                                  handler: nil))
+                    self?.present(alert, animated: true)
+                }
+            }
+        }
     }
     
     @objc private func didTapTermsButton() {

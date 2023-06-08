@@ -14,7 +14,7 @@ struct SettingCellModel {
 }
 
 /// View Controller to show user settings
-final class SettingsViewController: UIViewController {
+final class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero,
@@ -28,16 +28,27 @@ final class SettingsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "Settings"
         configureModels()
         view.backgroundColor = .systemBackground
         view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .close,
+            target: self,
+            action: #selector(didTapClose)
+        )
+        createTableFooter()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
+    }
+    
+    @objc func didTapClose() {
+        dismiss(animated: true, completion: nil)
     }
     
     private func configureModels() {
@@ -61,11 +72,6 @@ final class SettingsViewController: UIViewController {
             },
             SettingCellModel(title: "Help / Feedback") { [weak self] in
                 self?.openURL(type: .help)
-            }
-        ])
-        data.append([
-            SettingCellModel(title: "Log Out") { [weak self] in
-                self?.didTapLogOut()
             }
         ])
     }
@@ -107,31 +113,41 @@ final class SettingsViewController: UIViewController {
         
     }
     
+    // Table
     
+    private func createTableFooter() {
+        let footer = UIView(frame: CGRect(x: 0, y: 0, width: view.width, height: 50))
+        footer.clipsToBounds = true
+        
+        let button = UIButton(frame: footer.bounds)
+        footer.addSubview(button)
+        button.setTitle("Sign Out", for: .normal)
+        button.setTitleColor(.systemRed, for: .normal)
+        button.addTarget(self, action: #selector(didTapLogOut), for: .touchUpInside)
+        
+        tableView.tableFooterView = footer
+    }
     
-    private func didTapLogOut() {
+    @objc func didTapLogOut() {
         let actionSheet = UIAlertController(title: "Log Out",
                                             message: "Are you sure you want to log out?",
                                             preferredStyle: .actionSheet)
         actionSheet.addAction(UIAlertAction(title: "Cancel",
                                             style: .cancel,
                                             handler: nil))
-        actionSheet.addAction(UIAlertAction(title: "Log Out", style: .destructive, handler: { _ in
+        actionSheet.addAction(UIAlertAction(title: "Log Out", style: .destructive, handler: { [weak self] _ in
             AuthManager.shared.logOut(completion: { success in
-                DispatchQueue.main.async {
-                    if success {
-                        // present log in
-                        let loginVC = LoginViewController()
-                        loginVC.modalPresentationStyle = .fullScreen
-                        self.present(loginVC, animated: true) {
-                            self.navigationController?.popToRootViewController(animated: false)
-                            self.tabBarController?.selectedIndex = 0
-                        }
+                if success {
+                    DispatchQueue.main.async {
+                        let vc = LoginViewController()
+                        let navVC = UINavigationController(rootViewController: vc)
+                        navVC.modalPresentationStyle = .fullScreen
+                        self?.present(navVC, animated: true)
                     }
-                    else {
-                        //error occured
-                        fatalError("Could not log out user")
-                    }
+                }
+                else {
+                    //error occured
+                    fatalError("Could not log out user")
                 }
             })
         }))
@@ -140,10 +156,7 @@ final class SettingsViewController: UIViewController {
         actionSheet.popoverPresentationController?.sourceRect = tableView.bounds
         present(actionSheet, animated: true)
     }
-    
-}
 
-extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return data.count
     }
