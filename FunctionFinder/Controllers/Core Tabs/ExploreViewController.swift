@@ -165,7 +165,7 @@ extension ExploreViewController: UICollectionViewDelegate, UICollectionViewDataS
             return UICollectionViewCell()
         }
 //        cell.configure(with: )
-        cell.configure(debug: "test")
+//        cell.configure(debug: "test")
         return cell
     }
     

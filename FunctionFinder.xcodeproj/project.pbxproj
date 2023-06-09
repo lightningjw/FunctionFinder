@@ -12,6 +12,7 @@
 		D90DE90B9531769E3CA07DC0 /* Pods_FunctionFinder_FunctionFinderUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C8779C9A5617F9F0486244B /* Pods_FunctionFinder_FunctionFinderUITests.framework */; };
 		E81383952A2D408F006ED818 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E81383942A2D408F006ED818 /* ListViewController.swift */; };
 		E81383972A2D4868006ED818 /* UserFollowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E81383962A2D4868006ED818 /* UserFollowTableViewCell.swift */; };
+		E81DC44B2A33BFB8008A1E99 /* PostEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E81DC44A2A33BFB8008A1E99 /* PostEditViewController.swift */; };
 		E838D42E2A26CAB10020FCE3 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E838D42D2A26CAB10020FCE3 /* SettingsViewController.swift */; };
 		E838D4312A26E1720020FCE3 /* FeedPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E838D4302A26E1720020FCE3 /* FeedPostTableViewCell.swift */; };
 		E871AB2B2A217025002C369A /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E871AB2A2A217025002C369A /* LoginViewController.swift */; };
@@ -103,6 +104,7 @@
 		DE56A78E49D175A1EFED0466 /* Pods-FunctionFinder-FunctionFinderUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FunctionFinder-FunctionFinderUITests.release.xcconfig"; path = "Target Support Files/Pods-FunctionFinder-FunctionFinderUITests/Pods-FunctionFinder-FunctionFinderUITests.release.xcconfig"; sourceTree = "<group>"; };
 		E81383942A2D408F006ED818 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		E81383962A2D4868006ED818 /* UserFollowTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFollowTableViewCell.swift; sourceTree = "<group>"; };
+		E81DC44A2A33BFB8008A1E99 /* PostEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostEditViewController.swift; sourceTree = "<group>"; };
 		E838D42D2A26CAB10020FCE3 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		E838D4302A26E1720020FCE3 /* FeedPostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPostTableViewCell.swift; sourceTree = "<group>"; };
 		E871AB2A2A217025002C369A /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -312,6 +314,7 @@
 			children = (
 				E871AB2F2A217086002C369A /* PostViewController.swift */,
 				E8C82F622A294582008AA927 /* EditProfileViewController.swift */,
+				E81DC44A2A33BFB8008A1E99 /* PostEditViewController.swift */,
 				E81383942A2D408F006ED818 /* ListViewController.swift */,
 				E8A27F832A2FD32B009D4466 /* CaptionViewController.swift */,
 				E838D42D2A26CAB10020FCE3 /* SettingsViewController.swift */,
@@ -751,6 +754,7 @@
 				E871AB382A21735E002C369A /* CameraViewController.swift in Sources */,
 				E8A27F902A2FD3BE009D4466 /* HapticsManager.swift in Sources */,
 				E871AB342A217327002C369A /* ProfileViewController.swift in Sources */,
+				E81DC44B2A33BFB8008A1E99 /* PostEditViewController.swift in Sources */,
 				E871AB302A217086002C369A /* PostViewController.swift in Sources */,
 				E88EB3332A2ABD97005D7105 /* ProfileTabsCollectionReusableView.swift in Sources */,
 				E87718BC2A2E96C8008B1A53 /* PostHeaderTableViewCell.swift in Sources */,

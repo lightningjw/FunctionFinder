@@ -13,6 +13,7 @@ class TabBarViewController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tabBar.backgroundColor = UIColor.systemBackground
         setUpControllers()
     }
     
@@ -45,7 +46,7 @@ class TabBarViewController: UITabBarController {
         nav3.navigationBar.tintColor = .label
         nav4.navigationBar.tintColor = .label
         nav5.navigationBar.tintColor = .label
-        
+                
         if #available(iOS 14.0, *) {
             map.navigationItem.backButtonDisplayMode = .minimal
             explore.navigationItem.backButtonDisplayMode = .minimal
