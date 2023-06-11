@@ -25,6 +25,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, GMSMapView
 //        return tableView
 //    }
     
+//    private var viewModels = [FeedCellType]()
+    
     let currentLocationMarker = GMSMarker()
     let locationManager = CLLocationManager()
     var chosenPlace: MyPlace?
@@ -163,6 +165,50 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, GMSMapView
             marker.position = CLLocationCoordinate2D(latitude: lat, longitude: long)
             marker.map = self.myMapView
         }
+    }
+    
+    private func fetchPosts() {
+        // mock data
+        guard let username = UserDefaults.standard.string(forKey: "username")
+        else {
+            return
+        }
+        DatabaseManager.shared.posts(for: username) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let posts):
+                    print("\n\n\n Posts: \(posts.count)")
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        }
+    }
+    
+    private func createMockData() {
+        let postData: [FeedCellType] = [
+            .poster(
+                viewModel: PosterCollectionViewCellViewModel(
+                    username: "JustinWongaTonga",
+                    profilePictureURL: URL(string: "https://iosacademy.io/assets/images/brand/icon.jpg")!
+                )
+            ),
+            .post(
+                viewModel: PostCollectionViewCellViewModel(
+                    postURL: URL(string: "https://iosacademy.io/assets/images/courses/swiftui.png")!
+                )
+            ),
+            .actions(viewModel: PostActionsCollectionViewCellViewModel(isLiked: true)),
+            .likeCount(viewModel: PostLikesCollectionViewCellViewModel(likers: ["kanyewest"])),
+            .caption(viewModel: PostCaptionCollectionViewCellViewModel(
+                username: "JustinWongaTonga",
+                caption: "This is an awesome first post!")
+            ),
+            .timestamp(viewModel: PostDatetimeCollectionViewCellViewModel(date: Date()))
+        ]
+        
+//        viewModels.append(postData)
+//        collectionView?.reloadData()
     }
     
     @objc func btnMyLocationAction() {

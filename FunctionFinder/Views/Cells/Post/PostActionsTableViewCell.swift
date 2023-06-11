@@ -74,9 +74,9 @@ class PostActionsTableViewCell: UITableViewCell {
         delegate?.didTapSendButton()
     }
     
-    public func configure(with post: UserPost) {
+//    public func configure(with post: UserPost) {
         // configure the cell
-    }
+//    }
     
     override func layoutSubviews() {
         super.layoutSubviews()
