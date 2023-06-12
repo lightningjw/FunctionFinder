@@ -134,10 +134,10 @@ extension NotificationsViewController: NotificationLikeEventTableViewCellDelegat
         switch model.type {
         case .like(let post):
             // Open the post
-            let vc = PostViewController(model: post)
-            vc.title = post.postType.rawValue
-            vc.navigationItem.largeTitleDisplayMode = .never
-            navigationController?.pushViewController(vc, animated: true)
+            let vc = ""
+//            vc.title = post.postType.rawValue
+//            vc.navigationItem.largeTitleDisplayMode = .never
+//            navigationController?.pushViewController(vc, animated: true)
         case .follow(_):
             fatalError("Dev Issue: Should never get called")
         }

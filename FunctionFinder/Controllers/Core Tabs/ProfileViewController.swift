@@ -140,10 +140,10 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
                             createdDate: Date(),
                             taggedUsers: [],
                             owner: user)
-        let vc = PostViewController(model: post)
-        vc.title = post.postType.rawValue
-        vc.navigationItem.largeTitleDisplayMode = .never
-        navigationController?.pushViewController(vc, animated: true)
+//        let vc = PostViewController(model: post)
+//        vc.title = post.postType.rawValue
+//        vc.navigationItem.largeTitleDisplayMode = .never
+//        navigationController?.pushViewController(vc, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {

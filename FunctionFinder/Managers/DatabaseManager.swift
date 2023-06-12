@@ -18,6 +18,22 @@ final class DatabaseManager {
     
     // MARK: - Public
     
+    public func findUsers(with usernamePrefix: String, completion: @escaping ([User]) -> Void) {
+        let ref = database.collection("users")
+        ref.getDocuments {snapshot, error in
+            guard let users = snapshot?.documents.compactMap({ User(with: $0.data()) }),
+                    error == nil else {
+                completion([])
+                return
+            }
+            
+            let subset = users.filter({
+                $0.username.lowercased().hasPrefix(usernamePrefix.lowercased())
+            })
+            completion(subset)
+        }
+    }
+    
     public func posts(for username: String, completion: @escaping (Result<[Post], Error>) -> Void) {
         let ref = database.collection("users")
             .document(username)
@@ -75,6 +91,45 @@ final class DatabaseManager {
         }
         reference.setData(data) { error in
             completion(error == nil)
+        }
+    }
+    
+    public func explorePosts(completion: @escaping ([Post]) -> Void) {
+        let ref = database.collection("users")
+        ref.getDocuments {snapshot, error in
+            guard let users = snapshot?.documents.compactMap({ User(with: $0.data()) }),
+                    error == nil else {
+                completion([])
+                return
+            }
+            
+            let group = DispatchGroup()
+            var aggregatePosts = [Post]()
+            
+            users.forEach { user in
+                group.enter()
+                
+                let username = user.username
+                let postsRef = self.database.collection("users/\(username)/posts")
+                
+                postsRef.getDocuments {snapshot, error in
+                    
+                    defer {
+                        group.leave()
+                    }
+                    
+                    guard let posts = snapshot?.documents.compactMap({ Post(with: $0.data()) }),
+                            error == nil else {
+                        return
+                    }
+                    
+                    aggregatePosts.append(contentsOf: posts)
+                }
+            }
+            
+            group.notify(queue: .main) {
+                completion(aggregatePosts)
+            }
         }
     }
 }

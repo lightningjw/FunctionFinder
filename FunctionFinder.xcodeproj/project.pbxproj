@@ -46,6 +46,7 @@
 		E8A27F942A2FDBE1009D4466 /* LoginHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A27F932A2FDBE1009D4466 /* LoginHeaderView.swift */; };
 		E8A27F962A2FDE6C009D4466 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A27F952A2FDE6C009D4466 /* TextField.swift */; };
 		E8A4B4462A365C8A00B717BA /* FeedCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A4B4452A365C8A00B717BA /* FeedCellType.swift */; };
+		E8B037D12A37BDED00F21931 /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8B037D02A37BDED00F21931 /* SearchResultsViewController.swift */; };
 		E8BC2F3C2A27F65E0070B1CB /* CustomMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8BC2F3B2A27F65E0070B1CB /* CustomMarkerView.swift */; };
 		E8BC2F3F2A27F8350070B1CB /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8BC2F3E2A27F8350070B1CB /* PreviewView.swift */; };
 		E8BC2F412A27FCDD0070B1CB /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8BC2F402A27FCDD0070B1CB /* DetailsViewController.swift */; };
@@ -138,6 +139,7 @@
 		E8A27F932A2FDBE1009D4466 /* LoginHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginHeaderView.swift; sourceTree = "<group>"; };
 		E8A27F952A2FDE6C009D4466 /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
 		E8A4B4452A365C8A00B717BA /* FeedCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCellType.swift; sourceTree = "<group>"; };
+		E8B037D02A37BDED00F21931 /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
 		E8BC2F3B2A27F65E0070B1CB /* CustomMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMarkerView.swift; sourceTree = "<group>"; };
 		E8BC2F3E2A27F8350070B1CB /* PreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
 		E8BC2F402A27FCDD0070B1CB /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
@@ -317,6 +319,7 @@
 				E81DC44A2A33BFB8008A1E99 /* PostEditViewController.swift */,
 				E81383942A2D408F006ED818 /* ListViewController.swift */,
 				E8A27F832A2FD32B009D4466 /* CaptionViewController.swift */,
+				E8B037D02A37BDED00F21931 /* SearchResultsViewController.swift */,
 				E838D42D2A26CAB10020FCE3 /* SettingsViewController.swift */,
 			);
 			path = General;
@@ -789,6 +792,7 @@
 				E8DB7FAF2A1D98920098ED17 /* SceneDelegate.swift in Sources */,
 				E871AB322A21730A002C369A /* ExploreViewController.swift in Sources */,
 				E871AB2D2A21703E002C369A /* RegistrationViewController.swift in Sources */,
+				E8B037D12A37BDED00F21931 /* SearchResultsViewController.swift in Sources */,
 				E88EB3312A2ABD6B005D7105 /* ProfileInfoHeaderCollectionReusableView.swift in Sources */,
 				E8EC3D652A326B84009D51DE /* PostDatetimeCollectionViewCellViewModel.swift in Sources */,
 				E871AB472A218A3B002C369A /* StorageManager.swift in Sources */,
