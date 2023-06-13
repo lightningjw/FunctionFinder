@@ -47,6 +47,10 @@
 		E8A27F962A2FDE6C009D4466 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A27F952A2FDE6C009D4466 /* TextField.swift */; };
 		E8A4B4462A365C8A00B717BA /* FeedCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A4B4452A365C8A00B717BA /* FeedCellType.swift */; };
 		E8B037D12A37BDED00F21931 /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8B037D02A37BDED00F21931 /* SearchResultsViewController.swift */; };
+		E8B037D32A37D01000F21931 /* NotificationCommentEventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8B037D22A37D01000F21931 /* NotificationCommentEventTableViewCell.swift */; };
+		E8B037D52A37F75500F21931 /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8B037D42A37F75500F21931 /* NotificationsManager.swift */; };
+		E8B037D72A37F83800F21931 /* NotificationCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8B037D62A37F83800F21931 /* NotificationCellType.swift */; };
+		E8B037DB2A37F8DB00F21931 /* NotificationCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8B037DA2A37F8DB00F21931 /* NotificationCellViewModel.swift */; };
 		E8BC2F3C2A27F65E0070B1CB /* CustomMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8BC2F3B2A27F65E0070B1CB /* CustomMarkerView.swift */; };
 		E8BC2F3F2A27F8350070B1CB /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8BC2F3E2A27F8350070B1CB /* PreviewView.swift */; };
 		E8BC2F412A27FCDD0070B1CB /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8BC2F402A27FCDD0070B1CB /* DetailsViewController.swift */; };
@@ -71,7 +75,6 @@
 		E8EC3D702A326F0F009D51DE /* PostLikesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8EC3D6F2A326F0F009D51DE /* PostLikesCollectionViewCell.swift */; };
 		E8EC3D722A326F1C009D51DE /* PostCaptionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8EC3D712A326F1C009D51DE /* PostCaptionCollectionViewCell.swift */; };
 		E8EC3D742A326F2B009D51DE /* PostDatetimeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8EC3D732A326F2B009D51DE /* PostDatetimeCollectionViewCell.swift */; };
-		E8FADDE22A2D8E8400805171 /* NoNotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8FADDE12A2D8E8400805171 /* NoNotificationsView.swift */; };
 		E8FADDE52A2D91A000805171 /* NotificationFollowEventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8FADDE42A2D91A000805171 /* NotificationFollowEventTableViewCell.swift */; };
 		E8FADDE72A2D91B200805171 /* NotificationLikeEventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8FADDE62A2D91B200805171 /* NotificationLikeEventTableViewCell.swift */; };
 /* End PBXBuildFile section */
@@ -140,6 +143,10 @@
 		E8A27F952A2FDE6C009D4466 /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
 		E8A4B4452A365C8A00B717BA /* FeedCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCellType.swift; sourceTree = "<group>"; };
 		E8B037D02A37BDED00F21931 /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
+		E8B037D22A37D01000F21931 /* NotificationCommentEventTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCommentEventTableViewCell.swift; sourceTree = "<group>"; };
+		E8B037D42A37F75500F21931 /* NotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsManager.swift; sourceTree = "<group>"; };
+		E8B037D62A37F83800F21931 /* NotificationCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCellType.swift; sourceTree = "<group>"; };
+		E8B037DA2A37F8DB00F21931 /* NotificationCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCellViewModel.swift; sourceTree = "<group>"; };
 		E8BC2F3B2A27F65E0070B1CB /* CustomMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMarkerView.swift; sourceTree = "<group>"; };
 		E8BC2F3E2A27F8350070B1CB /* PreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
 		E8BC2F402A27FCDD0070B1CB /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
@@ -168,7 +175,6 @@
 		E8EC3D6F2A326F0F009D51DE /* PostLikesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostLikesCollectionViewCell.swift; sourceTree = "<group>"; };
 		E8EC3D712A326F1C009D51DE /* PostCaptionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCaptionCollectionViewCell.swift; sourceTree = "<group>"; };
 		E8EC3D732A326F2B009D51DE /* PostDatetimeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDatetimeCollectionViewCell.swift; sourceTree = "<group>"; };
-		E8FADDE12A2D8E8400805171 /* NoNotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoNotificationsView.swift; sourceTree = "<group>"; };
 		E8FADDE42A2D91A000805171 /* NotificationFollowEventTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationFollowEventTableViewCell.swift; sourceTree = "<group>"; };
 		E8FADDE62A2D91B200805171 /* NotificationLikeEventTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationLikeEventTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -243,6 +249,7 @@
 				E8A27F852A2FD35B009D4466 /* User.swift */,
 				E8A4B4452A365C8A00B717BA /* FeedCellType.swift */,
 				E8A27F872A2FD362009D4466 /* Post.swift */,
+				E8B037D62A37F83800F21931 /* NotificationCellType.swift */,
 				E8A27F892A2FD36F009D4466 /* Relationship.swift */,
 				E8A27F8B2A2FD379009D4466 /* Notification.swift */,
 			);
@@ -256,7 +263,6 @@
 				E8BC2F3D2A27F81A0070B1CB /* Marker */,
 				E838D42F2A26E1480020FCE3 /* Cells */,
 				E871AB272A216F15002C369A /* Storyboards */,
-				E8FADDE12A2D8E8400805171 /* NoNotificationsView.swift */,
 				E8A27F932A2FDBE1009D4466 /* LoginHeaderView.swift */,
 				E8A27F952A2FDE6C009D4466 /* TextField.swift */,
 			);
@@ -351,6 +357,7 @@
 				E871AB442A218A1A002C369A /* AuthManager.swift */,
 				E871AB422A21895C002C369A /* DatabaseManager.swift */,
 				E871AB462A218A3B002C369A /* StorageManager.swift */,
+				E8B037D42A37F75500F21931 /* NotificationsManager.swift */,
 				E8A27F8D2A2FD3B2009D4466 /* AnalyticsManager.swift */,
 				E8A27F8F2A2FD3BE009D4466 /* HapticsManager.swift */,
 			);
@@ -366,6 +373,7 @@
 				E8EC3D602A326B09009D51DE /* PostLikesCollectionViewCellViewModel.swift */,
 				E8EC3D622A326B4C009D51DE /* PostCaptionCollectionViewCellViewModel.swift */,
 				E8EC3D642A326B84009D51DE /* PostDatetimeCollectionViewCellViewModel.swift */,
+				E8B037DA2A37F8DB00F21931 /* NotificationCellViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -451,6 +459,7 @@
 			children = (
 				E8FADDE42A2D91A000805171 /* NotificationFollowEventTableViewCell.swift */,
 				E8FADDE62A2D91B200805171 /* NotificationLikeEventTableViewCell.swift */,
+				E8B037D22A37D01000F21931 /* NotificationCommentEventTableViewCell.swift */,
 			);
 			path = Notifications;
 			sourceTree = "<group>";
@@ -765,9 +774,9 @@
 				E8EC3D6A2A326E39009D51DE /* PosterCollectionViewCell.swift in Sources */,
 				E871AB2B2A217025002C369A /* LoginViewController.swift in Sources */,
 				E87718C02A2E96E2008B1A53 /* PostGeneralTableViewCell.swift in Sources */,
+				E8B037D72A37F83800F21931 /* NotificationCellType.swift in Sources */,
 				E8A27F882A2FD362009D4466 /* Post.swift in Sources */,
 				E81383972A2D4868006ED818 /* UserFollowTableViewCell.swift in Sources */,
-				E8FADDE22A2D8E8400805171 /* NoNotificationsView.swift in Sources */,
 				E8C82F632A294582008AA927 /* EditProfileViewController.swift in Sources */,
 				E88EB32F2A2ABD21005D7105 /* PhotoCollectionViewCell.swift in Sources */,
 				E8DB7FB12A1D98920098ED17 /* MapViewController.swift in Sources */,
@@ -781,6 +790,7 @@
 				E8A27F842A2FD32B009D4466 /* CaptionViewController.swift in Sources */,
 				E8DB7FAD2A1D98920098ED17 /* AppDelegate.swift in Sources */,
 				E8BC2F3F2A27F8350070B1CB /* PreviewView.swift in Sources */,
+				E8B037D52A37F75500F21931 /* NotificationsManager.swift in Sources */,
 				E88EB32C2A2AB2CC005D7105 /* FormTableViewCell.swift in Sources */,
 				E8BC2F3C2A27F65E0070B1CB /* CustomMarkerView.swift in Sources */,
 				E8BC2F412A27FCDD0070B1CB /* DetailsViewController.swift in Sources */,
@@ -788,6 +798,7 @@
 				E87718BE2A2E96D7008B1A53 /* PostActionsTableViewCell.swift in Sources */,
 				E8A27F942A2FDBE1009D4466 /* LoginHeaderView.swift in Sources */,
 				E8EC3D702A326F0F009D51DE /* PostLikesCollectionViewCell.swift in Sources */,
+				E8B037D32A37D01000F21931 /* NotificationCommentEventTableViewCell.swift in Sources */,
 				E8A4B4462A365C8A00B717BA /* FeedCellType.swift in Sources */,
 				E8DB7FAF2A1D98920098ED17 /* SceneDelegate.swift in Sources */,
 				E871AB322A21730A002C369A /* ExploreViewController.swift in Sources */,
@@ -795,6 +806,7 @@
 				E8B037D12A37BDED00F21931 /* SearchResultsViewController.swift in Sources */,
 				E88EB3312A2ABD6B005D7105 /* ProfileInfoHeaderCollectionReusableView.swift in Sources */,
 				E8EC3D652A326B84009D51DE /* PostDatetimeCollectionViewCellViewModel.swift in Sources */,
+				E8B037DB2A37F8DB00F21931 /* NotificationCellViewModel.swift in Sources */,
 				E871AB472A218A3B002C369A /* StorageManager.swift in Sources */,
 				E871AB492A21A660002C369A /* Extensions.swift in Sources */,
 				E8A27F862A2FD35B009D4466 /* User.swift in Sources */,

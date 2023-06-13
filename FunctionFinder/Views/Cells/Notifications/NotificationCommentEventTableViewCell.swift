@@ -1,25 +1,27 @@
 //
-//  NotificationLikeEventTableViewCell.swift
+//  NotificationCommentEventTableViewCell.swift
 //  FunctionFinder
 //
-//  Created by Justin Wong on 6/4/23.
+//  Created by Justin Wong on 6/12/23.
 //
+
+import UIKit
 
 import SDWebImage
 import UIKit
 
-protocol NotificationLikeEventTableViewCellDelegate: AnyObject {
-    func notificationLikeEventTableViewCell(_ cell: NotificationLikeEventTableViewCell,
-                                            didTapPostWith viewModel: LikeNotificationCellViewModel)
+protocol NotificationCommentEventTableViewCellDelegate: AnyObject {
+    func notificationCommentEventTableViewCell(_ cell: NotificationCommentEventTableViewCell,
+                                               didTapPostWith viewModel: CommentNotificationCellViewModel)
 }
 
-class NotificationLikeEventTableViewCell: UITableViewCell {
-    static let identifier = "NotificationLikeEventTableViewCell"
+class NotificationCommentEventTableViewCell: UITableViewCell {
+    static let identifier = "NotificationCommentEventTableViewCell"
     
-    weak var delegate: NotificationLikeEventTableViewCellDelegate?
+    private var viewModel: CommentNotificationCellViewModel?
     
-    private var viewModel: LikeNotificationCellViewModel?
-    
+    weak var delegate: NotificationCommentEventTableViewCellDelegate?
+        
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.masksToBounds = true
@@ -59,7 +61,6 @@ class NotificationLikeEventTableViewCell: UITableViewCell {
         contentView.addSubview(postImageView)
         contentView.addSubview(dateLabel)
         selectionStyle = .none
-        
         postImageView.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(didTapPost))
         postImageView.addGestureRecognizer(tap)
@@ -74,13 +75,13 @@ class NotificationLikeEventTableViewCell: UITableViewCell {
         else {
             return
         }
-        delegate?.notificationLikeEventTableViewCell(self,
-                                                     didTapPostWith: vm)
+        delegate?.notificationCommentEventTableViewCell(self,
+                                                        didTapPostWith: vm)
     }
     
-    public func configure(with viewModel: LikeNotificationCellViewModel) {
+    public func configure(with viewModel: CommentNotificationCellViewModel) {
         self.viewModel = viewModel
-        label.text = viewModel.username + " liked your post."
+        label.text = viewModel.username + " commented on your post."
         profileImageView.sd_setImage(
             with: viewModel.profilePictureUrl,
             completed: nil
@@ -130,7 +131,6 @@ class NotificationLikeEventTableViewCell: UITableViewCell {
             width: labelSize.width,
             height: contentView.height - dateLabel.height - 2
         )
-        
         dateLabel.frame = CGRect(
             x: profileImageView.right + 10,
             y: contentView.height - dateLabel.height - 2,
