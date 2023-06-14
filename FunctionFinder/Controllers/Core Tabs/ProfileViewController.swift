@@ -249,11 +249,13 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
 
 extension ProfileViewController: ProfileInfoHeaderCountViewDelegate {
     func profileInfoHeaderCountViewDidTapFollowers(_ containerView: ProfileInfoHeaderCountView) {
-        
+        let vc = ListViewController(type: .followers(user: user))
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func profileInfoHeaderCountViewDidTapFollowing(_ containerView: ProfileInfoHeaderCountView) {
-        
+        let vc = ListViewController(type: .following(user: user))
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func profileInfoHeaderCountViewDidTapPosts(_ containerView: ProfileInfoHeaderCountView) {
@@ -261,7 +263,7 @@ extension ProfileViewController: ProfileInfoHeaderCountViewDelegate {
         else {
             return
         }
-        collectionView?.setContentOffset(CGPoint(x: 0, y: view.width * 0.7),
+        collectionView?.setContentOffset(CGPoint(x: 0, y: view.width * 0.4),
                                          animated: true)
     }
     
@@ -276,11 +278,29 @@ extension ProfileViewController: ProfileInfoHeaderCountViewDelegate {
     }
     
     func profileInfoHeaderCountViewDidTapFollow(_ containerView: ProfileInfoHeaderCountView) {
-        
+        DatabaseManager.shared.updateRelationship(
+            state: .follow,
+            for: user.username){ [weak self] success in
+                if !success {
+                    print("failed to follow")
+                    DispatchQueue.main.async {
+                        self?.collectionView?.reloadData()
+                    }
+                }
+            }
     }
     
     func profileInfoHeaderCountViewDidTapUnfollow(_ containerView: ProfileInfoHeaderCountView) {
-        
+        DatabaseManager.shared.updateRelationship(
+            state: .unfollow,
+            for: user.username){ [weak self] success in
+                if !success {
+                    print("failed to follow")
+                    DispatchQueue.main.async {
+                        self?.collectionView?.reloadData()
+                    }
+                }
+            }
     }
 }
 

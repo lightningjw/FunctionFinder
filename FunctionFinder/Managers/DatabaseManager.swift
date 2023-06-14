@@ -300,7 +300,7 @@ final class DatabaseManager {
             .collection("followers")
             .document(currentUsername)
         ref.getDocument { snapshot, error in
-            guard snapshot != nil, error == nil
+            guard snapshot?.data() != nil, error == nil
             else {
                 // Not following
                 completion(false)
@@ -308,6 +308,36 @@ final class DatabaseManager {
             }
             // Following
             completion(true)
+        }
+    }
+    
+    /// Gets users that the username is following
+    public func followers(for username: String, completion: @escaping ([String]) -> Void) {
+        let ref = database.collection("users")
+            .document(username)
+            .collection("followers")
+        ref.getDocuments { snapshot, error in
+            guard let usernames = snapshot?.documents.compactMap({ $0.documentID }), error == nil
+            else {
+                completion([])
+                return
+            }
+            completion(usernames)
+        }
+    }
+    
+    /// Gets users that the username follows
+    public func following(for username: String, completion: @escaping ([String]) -> Void) {
+        let ref = database.collection("users")
+            .document(username)
+            .collection("following")
+        ref.getDocuments { snapshot, error in
+            guard let usernames = snapshot?.documents.compactMap({ $0.documentID }), error == nil
+            else {
+                completion([])
+                return
+            }
+            completion(usernames)
         }
     }
     

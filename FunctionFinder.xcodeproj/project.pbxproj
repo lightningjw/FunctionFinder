@@ -10,6 +10,9 @@
 		29B37DC1854B76942DF0113D /* Pods_FunctionFinder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B10DC22451E1BF61A3000A6C /* Pods_FunctionFinder.framework */; };
 		2A0E1FD9490CE9A43833EAA0 /* Pods_FunctionFinderTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C25F76ECEEED06A6AAD3595 /* Pods_FunctionFinderTests.framework */; };
 		D90DE90B9531769E3CA07DC0 /* Pods_FunctionFinder_FunctionFinderUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C8779C9A5617F9F0486244B /* Pods_FunctionFinder_FunctionFinderUITests.framework */; };
+		E80483642A3A630100ECE052 /* FollowButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80483632A3A630100ECE052 /* FollowButton.swift */; };
+		E80483662A3A702400ECE052 /* ListUserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80483652A3A702400ECE052 /* ListUserTableViewCell.swift */; };
+		E80483682A3A716700ECE052 /* ListUserTableViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80483672A3A716700ECE052 /* ListUserTableViewCellViewModel.swift */; };
 		E81383952A2D408F006ED818 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E81383942A2D408F006ED818 /* ListViewController.swift */; };
 		E81383972A2D4868006ED818 /* UserFollowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E81383962A2D4868006ED818 /* UserFollowTableViewCell.swift */; };
 		E81DC44B2A33BFB8008A1E99 /* PostEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E81DC44A2A33BFB8008A1E99 /* PostEditViewController.swift */; };
@@ -110,6 +113,9 @@
 		B10DC22451E1BF61A3000A6C /* Pods_FunctionFinder.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FunctionFinder.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5E732AD91F894A8064B8925 /* Pods-FunctionFinder-FunctionFinderUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FunctionFinder-FunctionFinderUITests.debug.xcconfig"; path = "Target Support Files/Pods-FunctionFinder-FunctionFinderUITests/Pods-FunctionFinder-FunctionFinderUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		DE56A78E49D175A1EFED0466 /* Pods-FunctionFinder-FunctionFinderUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FunctionFinder-FunctionFinderUITests.release.xcconfig"; path = "Target Support Files/Pods-FunctionFinder-FunctionFinderUITests/Pods-FunctionFinder-FunctionFinderUITests.release.xcconfig"; sourceTree = "<group>"; };
+		E80483632A3A630100ECE052 /* FollowButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowButton.swift; sourceTree = "<group>"; };
+		E80483652A3A702400ECE052 /* ListUserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListUserTableViewCell.swift; sourceTree = "<group>"; };
+		E80483672A3A716700ECE052 /* ListUserTableViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListUserTableViewCellViewModel.swift; sourceTree = "<group>"; };
 		E81383942A2D408F006ED818 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		E81383962A2D4868006ED818 /* UserFollowTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFollowTableViewCell.swift; sourceTree = "<group>"; };
 		E81DC44A2A33BFB8008A1E99 /* PostEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostEditViewController.swift; sourceTree = "<group>"; };
@@ -273,6 +279,8 @@
 				E838D42F2A26E1480020FCE3 /* Cells */,
 				E871AB272A216F15002C369A /* Storyboards */,
 				E8A27F932A2FDBE1009D4466 /* LoginHeaderView.swift */,
+				E80483632A3A630100ECE052 /* FollowButton.swift */,
+				E80483652A3A702400ECE052 /* ListUserTableViewCell.swift */,
 				E8A27F952A2FDE6C009D4466 /* TextField.swift */,
 			);
 			path = Views;
@@ -382,6 +390,7 @@
 				E8EC3D5E2A326ADD009D51DE /* PostActionsCollectionViewCellViewModel.swift */,
 				E8EC3D602A326B09009D51DE /* PostLikesCollectionViewCellViewModel.swift */,
 				E8EC3D622A326B4C009D51DE /* PostCaptionCollectionViewCellViewModel.swift */,
+				E80483672A3A716700ECE052 /* ListUserTableViewCellViewModel.swift */,
 				E8469F352A39290700920070 /* ProfileInfoHeaderCountViewViewModel.swift */,
 				E8EC3D642A326B84009D51DE /* PostDatetimeCollectionViewCellViewModel.swift */,
 				E8B037DA2A37F8DB00F21931 /* NotificationCellViewModel.swift */,
@@ -785,6 +794,7 @@
 				E871AB302A217086002C369A /* PostViewController.swift in Sources */,
 				E88EB3332A2ABD97005D7105 /* ProfileTabsCollectionReusableView.swift in Sources */,
 				E87718BC2A2E96C8008B1A53 /* PostHeaderTableViewCell.swift in Sources */,
+				E80483682A3A716700ECE052 /* ListUserTableViewCellViewModel.swift in Sources */,
 				E8A27F8E2A2FD3B2009D4466 /* AnalyticsManager.swift in Sources */,
 				E8EC3D6A2A326E39009D51DE /* PosterCollectionViewCell.swift in Sources */,
 				E871AB2B2A217025002C369A /* LoginViewController.swift in Sources */,
@@ -792,6 +802,7 @@
 				E8B037D72A37F83800F21931 /* NotificationCellType.swift in Sources */,
 				E8A27F882A2FD362009D4466 /* Post.swift in Sources */,
 				E81383972A2D4868006ED818 /* UserFollowTableViewCell.swift in Sources */,
+				E80483662A3A702400ECE052 /* ListUserTableViewCell.swift in Sources */,
 				E8C82F632A294582008AA927 /* EditProfileViewController.swift in Sources */,
 				E88EB32F2A2ABD21005D7105 /* PhotoCollectionViewCell.swift in Sources */,
 				E8DB7FB12A1D98920098ED17 /* MapViewController.swift in Sources */,
@@ -808,6 +819,7 @@
 				E8B037D52A37F75500F21931 /* NotificationsManager.swift in Sources */,
 				E88EB32C2A2AB2CC005D7105 /* FormTableViewCell.swift in Sources */,
 				E8BC2F3C2A27F65E0070B1CB /* CustomMarkerView.swift in Sources */,
+				E80483642A3A630100ECE052 /* FollowButton.swift in Sources */,
 				E8BC2F412A27FCDD0070B1CB /* DetailsViewController.swift in Sources */,
 				E8EC3D5F2A326ADD009D51DE /* PostActionsCollectionViewCellViewModel.swift in Sources */,
 				E87718BE2A2E96D7008B1A53 /* PostActionsTableViewCell.swift in Sources */,

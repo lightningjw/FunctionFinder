@@ -47,12 +47,7 @@ class NotificationFollowEventTableViewCell: UITableViewCell {
         return label
     }()
     
-    private let followButton: UIButton = {
-        let button = UIButton()
-        button.layer.cornerRadius = 4
-        button.layer.masksToBounds = true
-        return button
-    }()
+    private let followButton = FollowButton()
     
     // MARK: - Init
     
@@ -82,19 +77,8 @@ class NotificationFollowEventTableViewCell: UITableViewCell {
                                                        didTapButton: !isFollowing,
                                                        viewModel: vm)
         isFollowing = !isFollowing
-        updateButton()
-    }
-    
-    private func updateButton() {
-        followButton.setTitle(isFollowing ? "Unfollow" : "Follow",
-                              for: .normal)
-        followButton.backgroundColor = isFollowing ? .tertiarySystemBackground : .systemBlue
-        followButton.setTitleColor(isFollowing ? .label : .white,
-                                   for: .normal)
-        if isFollowing {
-            followButton.layer.borderWidth = 0.5
-            followButton.layer.borderColor = UIColor.secondaryLabel.cgColor
-        }
+        
+        followButton.configure(for: isFollowing ? .unfollow : .follow)
     }
     
     public func configure(with viewModel: FollowNotificationCellViewModel) {
@@ -102,8 +86,9 @@ class NotificationFollowEventTableViewCell: UITableViewCell {
         label.text = viewModel.username + " started following you."
         profileImageView.sd_setImage(with: viewModel.profilePictureUrl, completed: nil)
         isFollowing = viewModel.isCurrentUserFollowing
-        updateButton()
         dateLabel.text = viewModel.date
+        
+        followButton.configure(for: isFollowing ? .unfollow : .follow)
     }
     
     override func prepareForReuse() {
