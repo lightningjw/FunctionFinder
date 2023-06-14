@@ -128,9 +128,11 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate, UIImage
     // MARK: - Actions
     
     @objc func didTapImage() {
-        let sheet = UIAlertController(title: "Profile Picture",
-                                      message: "Set a picture to help your friends find you.",
-                                      preferredStyle: .actionSheet)
+        let sheet = UIAlertController(
+            title: "Profile Picture",
+            message: "Set a picture to help your friends find you.",
+            preferredStyle: .actionSheet
+        )
         
         sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         sheet.addAction(UIAlertAction(title: "Take Photo", style: .default, handler: { [weak self] _ in
