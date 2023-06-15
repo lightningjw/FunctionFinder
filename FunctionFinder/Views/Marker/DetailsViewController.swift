@@ -9,7 +9,7 @@ import UIKit
 
 class DetailsViewController: UIViewController {
     
-    var passedData = (title: "Name", img: #imageLiteral(resourceName: "house"), time: 12)
+    var passedData = (Post(id: "", caption: "", postedDate: "", postUrlString: "", likers: []), "")
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,27 +37,32 @@ class DetailsViewController: UIViewController {
         imgView.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
         imgView.rightAnchor.constraint(equalTo: containerView.rightAnchor).isActive = true
         imgView.heightAnchor.constraint(equalToConstant: 200).isActive = true
-        imgView.image = passedData.img
+        guard let postUrl = URL(string: passedData.0.postUrlString)
+        else {
+            fatalError()
+        }
+        imgView.sd_setImage(with: postUrl, completed: nil)
+//        imgView.image = passedData.img
         
         containerView.addSubview(lblTitle)
         lblTitle.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 15).isActive = true
         lblTitle.topAnchor.constraint(equalTo: imgView.bottomAnchor).isActive = true
         lblTitle.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -15).isActive = true
         lblTitle.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        lblTitle.text = passedData.title
+        lblTitle.text = passedData.1
         
         containerView.addSubview(lblTime)
         lblTime.leftAnchor.constraint(equalTo: lblTitle.leftAnchor).isActive = true
         lblTime.topAnchor.constraint(equalTo: lblTitle.bottomAnchor).isActive = true
         lblTime.rightAnchor.constraint(equalTo: lblTitle.rightAnchor).isActive = true
         lblTime.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        lblTime.text = "$\(passedData.time)"
+        lblTime.text = "$\(passedData.0.postedDate)"
         
         containerView.addSubview(lblDescription)
         lblDescription.leftAnchor.constraint(equalTo: lblTitle.leftAnchor).isActive = true
         lblDescription.topAnchor.constraint(equalTo: lblTime.bottomAnchor, constant: 10).isActive = true
         lblDescription.rightAnchor.constraint(equalTo: lblTitle.rightAnchor).isActive = true
-        lblDescription.text = "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.\""
+        lblDescription.text = "$\(passedData.0.caption)"
         lblDescription.sizeToFit()
     }
     

@@ -7,168 +7,412 @@
 
 import UIKit
 
-/*
- 
- Section
- - Header model
- Section
- - Post Cell model
- Section
- - Action Buttons Cell model
- Section
- - n Number of general models for comments
- 
- */
-
-/// States of a rendered cell
-enum PostRenderType {
-    case header(provider: User)
-    case primaryContent(provider: UserPost) // post
-    case actions(provider: String) // like, comment, share
-    case comments(comments: [PostComment])
-}
-
-/// Model of rendered Post
-struct PostRenderViewModel {
-    let renderType: PostRenderType
-}
-
-class PostViewController: UIViewController {
+class PostViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
-    let post: Post
+    private let post: Post
+    private let owner: String
     
-//    private let model: UserPost?
-//
-//    private var renderModels = [PostRenderViewModel]()
-//
-//    private let tableView: UITableView = {
-//        let tableView = UITableView()
-//
-//        // Register cells
-//        tableView.register(PostTableViewCell.self,
-//                           forCellReuseIdentifier: PostTableViewCell.identifier)
-//        tableView.register(PostHeaderTableViewCell.self,
-//                           forCellReuseIdentifier: PostHeaderTableViewCell.identifier)
-//        tableView.register(PostActionsTableViewCell.self,
-//                           forCellReuseIdentifier: PostActionsTableViewCell.identifier)
-//        tableView.register(PostGeneralTableViewCell.self,
-//                           forCellReuseIdentifier: PostGeneralTableViewCell.identifier)
-//
-//        return tableView
-//    }()
+    /// CollectionView for feed
+    private var collectionView: UICollectionView?
+
+    /// Feed viewModels
+    private var viewModels: [FeedCellType] = []
     
     // MARK: - Init
     
-//    init(model: UserPost?) {
-//        self.model = model
-//        super.init(nibName: nil, bundle: nil)
-//        configureModels()
-//    }
-    
-    init(post: Post) {
+    init(
+        post: Post,
+        owner: String) {
+        self.owner = owner
         self.post = post
         super.init(nibName: nil, bundle: nil)
-//        configureModels()
     }
     
     required init?(coder: NSCoder) {
         fatalError()
     }
-    
-//    private func configureModels() {
-//        guard let userPostModel = self.model else {
-//            return
-//        }
-//        // Header
-//        renderModels.append(PostRenderViewModel(renderType: .header(provider: userPostModel.owner)))
-//
-//        // Post
-//        renderModels.append(PostRenderViewModel(renderType: .primaryContent(provider: userPostModel)))
-//
-//        // Actions
-//        renderModels.append(PostRenderViewModel(renderType: .actions(provider: "")))
-//
-//        // 4 Comments
-//        var comments = [PostComment]()
-//        for x in 0..<4 {
-//            comments.append(
-//                PostComment(
-//                    identifier: "123_\(x)",
-//                    username: "@dave",
-//                    text: "Great post!",
-//                    createdDate: Date(),
-//                    likes: []
-//                )
-//            )
-//        }
-//        renderModels.append(PostRenderViewModel(renderType: .comments(comments: comments)))
-//    }
+
+    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Post"
-//        view.addSubview(tableView)
-//        tableView.delegate = self
-//        tableView.dataSource = self
         view.backgroundColor = .systemBackground
+        configureCollectionView()
+        fetchPost()
     }
-    
-//    override func viewDidLayoutSubviews() {
-//        super.viewDidLayoutSubviews()
-//        tableView.frame = view.bounds
-//    }
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        collectionView?.frame = view.bounds
+    }
+
+    private func fetchPost() {
+        // mock data
+        let username = owner
+        DatabaseManager.shared.getPost(with: post.id, from: username) { [weak self] post in
+            guard let post = post
+            else {
+                return
+            }
+            
+            self?.createViewModel(
+                model: post,
+                username: username,
+                completion: { success in
+                    guard success
+                    else {
+                        return
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self?.collectionView?.reloadData()
+                    }
+                }
+            )
+        }
+    }
+
+    private func createViewModel(
+        model: Post,
+        username: String,
+        completion: @escaping (Bool) -> Void
+    ) {
+        guard let currentUsername = UserDefaults.standard.string(forKey: "username") else { return }
+        StorageManager.shared.profilePictureURL(for: username) { [weak self] profilePictureURL in
+            guard let postUrl = URL(string: model.postUrlString),
+                  let profilePhotoUrl = profilePictureURL else {
+                return
+            }
+
+            let isLiked = model.likers.contains(currentUsername)
+
+            let postData: [FeedCellType] = [
+                .poster(
+                    viewModel: PosterCollectionViewCellViewModel(
+                        username: username,
+                        profilePictureURL: profilePhotoUrl
+                    )
+                ),
+                .post(
+                    viewModel: PostCollectionViewCellViewModel(
+                        postURL: postUrl
+                    )
+                ),
+                .actions(viewModel: PostActionsCollectionViewCellViewModel(isLiked: isLiked)),
+                .likeCount(viewModel: PostLikesCollectionViewCellViewModel(likers: model.likers)),
+                .caption(
+                    viewModel: PostCaptionCollectionViewCellViewModel(
+                        username: username,
+                        caption: model.caption)),
+                .timestamp(
+                    viewModel: PostDatetimeCollectionViewCellViewModel(
+                        date: DateFormatter.formatter.date(from: model.postedDate) ?? Date()
+                    )
+                )
+            ]
+            self?.viewModels = postData
+            completion(true)
+        }
+    }
+
+    // CollectionView
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return viewModels.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cellType = viewModels[indexPath.row]
+        switch cellType {
+        case .poster(let viewModel):
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: PosterCollectionViewCell.identifer,
+                for: indexPath
+            ) as? PosterCollectionViewCell else {
+                fatalError()
+            }
+            cell.delegate = self
+            cell.configure(with: viewModel, index: indexPath.section)
+            return cell
+        case .post(let viewModel):
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: PostCollectionViewCell.identifer,
+                for: indexPath
+            ) as? PostCollectionViewCell else {
+                fatalError()
+            }
+            cell.delegate = self
+            cell.configure(with: viewModel, index: indexPath.section)
+            return cell
+        case .actions(let viewModel):
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: PostActionsCollectionViewCell.identifer,
+                for: indexPath
+            ) as? PostActionsCollectionViewCell else {
+                fatalError()
+            }
+            cell.delegate = self
+            cell.configure(with: viewModel, index: indexPath.section)
+            return cell
+        case .likeCount(let viewModel):
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: PostLikesCollectionViewCell.identifer,
+                for: indexPath
+            ) as? PostLikesCollectionViewCell else {
+                fatalError()
+            }
+            cell.delegate = self
+            cell.configure(with: viewModel, index: indexPath.section)
+            return cell
+        case .caption(let viewModel):
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: PostCaptionCollectionViewCell.identifer,
+                for: indexPath
+            ) as? PostCaptionCollectionViewCell else {
+                fatalError()
+            }
+            cell.delegate = self
+            cell.configure(with: viewModel)
+            return cell
+        case .timestamp(let viewModel):
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: PostDateTimeCollectionViewCell.identifer,
+                for: indexPath
+            ) as? PostDateTimeCollectionViewCell else {
+                fatalError()
+            }
+            cell.configure(with: viewModel)
+            return cell
+        }
+    }
 }
 
-//extension PostViewController: UITableViewDelegate, UITableViewDataSource {
-//    func numberOfSections(in tableView: UITableView) -> Int {
-//        return renderModels.count
-//    }
-//
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        switch renderModels[section].renderType {
-//            case .actions(_): return 1
-//            case .comments(let comments): return comments.count > 4 ? 4 : comments.count
-//            case .primaryContent(_): return 1
-//            case .header(_): return 1
+extension PostViewController: PostLikesCollectionViewCellDelegate {
+    func postLikesCollectionViewCellDidTapLikeCount(_ cell: PostLikesCollectionViewCell) {
+//        HapticManager.shared.vibrateForSelection()
+        let vc = ListViewController(type: .likers(usernames: []))
+        navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+extension PostViewController: PostCaptionCollectionViewCellDelegate {
+    func postCaptionCollectionViewCellDidTapCaptioon(_ cell: PostCaptionCollectionViewCell) {
+        print("tapped caption")
+    }
+}
+
+extension PostViewController: PostActionsCollectionViewCellDelegate {
+    func postActionsCollectionViewCellDidTapShare(_ cell: PostActionsCollectionViewCell, index: Int) {
+//        AnalyticsManager.shared.logFeedInteraction(.share)
+        let cellType = viewModels[index]
+        switch cellType {
+        case .post(let viewModel):
+            let vc = UIActivityViewController(
+                activityItems: ["Check out this cool post!", viewModel.postURL],
+                applicationActivities: []
+            )
+            present(vc, animated: true)
+
+        default:
+            break
+        }
+    }
+
+    func postActionsCollectionViewCellDidTapComment(_ cell: PostActionsCollectionViewCell, index: Int) {
+//        AnalyticsManager.shared.logFeedInteraction(.comment)
+//        let tuple = allPosts[index]
+//        HapticManager.shared.vibrateForSelection()
+//        let vc = PostViewController(post: tuple.post, owner: tuple.owner)
+//        vc.title = "Post"
+//        navigationController?.pushViewController(vc, animated: true)
+    }
+
+    func postActionsCollectionViewCellDidTapLike(_ cell: PostActionsCollectionViewCell, isLiked: Bool, index: Int) {
+//        AnalyticsManager.shared.logFeedInteraction(.like)
+//        HapticManager.shared.vibrateForSelection()
+//        let tuple = allPosts[index]
+//        DatabaseManager.shared.updateLikeState(
+//            state: isLiked ? .like : .unlike,
+//            postID: tuple.post.id,
+//            owner: tuple.owner) { success in
+//            guard success else {
+//                return
+//            }
+//            print("Failed to like")
 //        }
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let model  = renderModels[indexPath.section]
-//
-//        switch model.renderType {
-//            case .actions(let actions):
-//                let cell = tableView.dequeueReusableCell(withIdentifier: PostActionsTableViewCell.identifier,
-//                                                         for: indexPath) as! PostActionsTableViewCell
-//                return cell
-//            case .comments(let comments):
-//                let cell = tableView.dequeueReusableCell(withIdentifier: PostGeneralTableViewCell.identifier,
-//                                                         for: indexPath) as! PostGeneralTableViewCell
-//                return cell
-//            case .primaryContent(let post):
-//                let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier,
-//                                                         for: indexPath) as! PostTableViewCell
-//                return cell
-//            case .header(let user):
-//                let cell = tableView.dequeueReusableCell(withIdentifier: PostHeaderTableViewCell.identifier,
-//                                                         for: indexPath) as! PostHeaderTableViewCell
-//                return cell
+    }
+}
+
+extension PostViewController: PostCollectionViewCellDelegate {
+    func postCollectionViewCellDidLike(_ cell: PostCollectionViewCell, index: Int) {
+//        AnalyticsManager.shared.logFeedInteraction(.doubleTapToLike)
+//        let tuple = allPosts[index]
+//        DatabaseManager.shared.updateLikeState(
+//            state: .like,
+//            postID: tuple.post.id,
+//            owner: tuple.owner) { success in
+//            guard success else {
+//                return
+//            }
+//            print("Failed to like")
 //        }
-//    }
-//
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        tableView.deselectRow(at: indexPath, animated: true)
-//    }
-//
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        let model = renderModels[indexPath.section]
-//
-//        switch model.renderType {
-//            case .actions(let actions): return 60
-//            case .comments(let comments): return 50
-//            case .primaryContent(let post): return tableView.width
-//            case .header(let user): return 70
-//        }
-//    }
-//}
+    }
+}
+
+extension PostViewController: PosterCollectionViewCellDelegate {
+    func posterCollectionViewCellDidTapMore(_ cell: PosterCollectionViewCell, index: Int) {
+        let sheet = UIAlertController(
+            title: "Post Actions",
+            message: nil,
+            preferredStyle: .actionSheet
+        )
+        sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        sheet.addAction(UIAlertAction(title: "Share Post", style: .default, handler: { [weak self]  _ in
+            DispatchQueue.main.async {
+                let cellType = self?.viewModels[index]
+                switch cellType {
+                case .post(let viewModel):
+                    let vc = UIActivityViewController(
+                        activityItems: ["Check out this cool post!", viewModel.postURL],
+                        applicationActivities: []
+                    )
+                    self?.present(vc, animated: true)
+
+                default:
+                    break
+                }
+            }
+        }))
+        sheet.addAction(UIAlertAction(title: "Report Post", style: .destructive, handler: { _ in
+            // Report
+//            AnalyticsManager.shared.logFeedInteraction(.reported)
+        }))
+        present(sheet, animated: true)
+    }
+
+    func posterCollectionViewCellDidTapUsername(_ cell: PosterCollectionViewCell, index: Int) {
+        DatabaseManager.shared.findUser(username: owner) { [weak self] user in
+            DispatchQueue.main.async {
+                guard let user = user else {
+                    return
+                }
+                let vc = ProfileViewController(user: user)
+                self?.navigationController?.pushViewController(vc, animated: true)
+            }
+        }
+    }
+}
+
+extension PostViewController {
+    func configureCollectionView() {
+        let sectionHeight: CGFloat = 300 + view.width
+        let collectionView = UICollectionView(
+            frame: .zero,
+            collectionViewLayout: UICollectionViewCompositionalLayout(sectionProvider: { index, _ -> NSCollectionLayoutSection? in
+
+                // Item
+                let posterItem = NSCollectionLayoutItem(
+                    layoutSize: NSCollectionLayoutSize(
+                        widthDimension: .fractionalWidth(1),
+                        heightDimension: .absolute(60)
+                    )
+                )
+
+                let postItem = NSCollectionLayoutItem(
+                    layoutSize: NSCollectionLayoutSize(
+                        widthDimension: .fractionalWidth(1),
+                        heightDimension: .fractionalWidth(1)
+                    )
+                )
+
+                let actionsItem = NSCollectionLayoutItem(
+                    layoutSize: NSCollectionLayoutSize(
+                        widthDimension: .fractionalWidth(1),
+                        heightDimension: .absolute(40)
+                    )
+                )
+
+                let likeCountItem = NSCollectionLayoutItem(
+                    layoutSize: NSCollectionLayoutSize(
+                        widthDimension: .fractionalWidth(1),
+                        heightDimension: .absolute(40)
+                    )
+                )
+
+                let captionItem = NSCollectionLayoutItem(
+                    layoutSize: NSCollectionLayoutSize(
+                        widthDimension: .fractionalWidth(1),
+                        heightDimension: .absolute(60)
+                    )
+                )
+
+                let timestampItem = NSCollectionLayoutItem(
+                    layoutSize: NSCollectionLayoutSize(
+                        widthDimension: .fractionalWidth(1),
+                        heightDimension: .absolute(40)
+                    )
+                )
+
+                // Group
+                let group = NSCollectionLayoutGroup.vertical(
+                    layoutSize: NSCollectionLayoutSize(
+                        widthDimension: .fractionalWidth(1),
+                        heightDimension: .absolute(sectionHeight)
+                    ),
+                    subitems: [
+                        posterItem,
+                        postItem,
+                        actionsItem,
+                        likeCountItem,
+                        captionItem,
+                        timestampItem
+                    ]
+                )
+
+                // Section
+                let section = NSCollectionLayoutSection(group: group)
+
+                section.contentInsets = NSDirectionalEdgeInsets(top: 3, leading: 0, bottom: 10, trailing: 0)
+
+                return section
+            })
+        )
+
+        view.addSubview(collectionView)
+        collectionView.backgroundColor = .systemBackground
+        collectionView.delegate = self
+        collectionView.dataSource = self
+
+        collectionView.register(
+            PosterCollectionViewCell.self,
+            forCellWithReuseIdentifier: PosterCollectionViewCell.identifer
+        )
+        collectionView.register(
+            PostCollectionViewCell.self,
+            forCellWithReuseIdentifier: PostCollectionViewCell.identifer
+        )
+        collectionView.register(
+            PostActionsCollectionViewCell.self,
+            forCellWithReuseIdentifier: PostActionsCollectionViewCell.identifer
+        )
+        collectionView.register(
+            PostLikesCollectionViewCell.self,
+            forCellWithReuseIdentifier: PostLikesCollectionViewCell.identifer
+        )
+        collectionView.register(
+            PostCaptionCollectionViewCell.self,
+            forCellWithReuseIdentifier: PostCaptionCollectionViewCell.identifer
+        )
+        collectionView.register(
+            PostDateTimeCollectionViewCell.self,
+            forCellWithReuseIdentifier: PostDateTimeCollectionViewCell.identifer
+        )
+        collectionView.register(
+            CommentCollectionViewCell.self,
+            forCellWithReuseIdentifier: CommentCollectionViewCell.identifier
+        )
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 100, right: 0)
+        self.collectionView = collectionView
+    }
+}

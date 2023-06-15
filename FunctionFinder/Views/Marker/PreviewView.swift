@@ -18,10 +18,10 @@ class PreviewView: UIView {
         setupViews()
     }
     
-    func setData(title: String, img: UIImage, time: Int) {
+    func setData(title: String, img: URL, time: String) {
         lblTitle.text = title
-        imgView.image = img
-        lblTime.text = "$\(time)"
+        imgView.sd_setImage(with: img, completed: nil)
+        lblTime.text = time
     }
     
     func setupViews() {

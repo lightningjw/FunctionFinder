@@ -61,6 +61,8 @@
 		E8BC2F3C2A27F65E0070B1CB /* CustomMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8BC2F3B2A27F65E0070B1CB /* CustomMarkerView.swift */; };
 		E8BC2F3F2A27F8350070B1CB /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8BC2F3E2A27F8350070B1CB /* PreviewView.swift */; };
 		E8BC2F412A27FCDD0070B1CB /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8BC2F402A27FCDD0070B1CB /* DetailsViewController.swift */; };
+		E8C24B622A3BC4C0006983E6 /* SettingsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C24B612A3BC4C0006983E6 /* SettingsModels.swift */; };
+		E8C24B642A3BD5D6006983E6 /* CommentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C24B632A3BD5D6006983E6 /* CommentCollectionViewCell.swift */; };
 		E8C82F632A294582008AA927 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C82F622A294582008AA927 /* EditProfileViewController.swift */; };
 		E8DB7FAD2A1D98920098ED17 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8DB7FAC2A1D98920098ED17 /* AppDelegate.swift */; };
 		E8DB7FAF2A1D98920098ED17 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8DB7FAE2A1D98920098ED17 /* SceneDelegate.swift */; };
@@ -164,6 +166,8 @@
 		E8BC2F3B2A27F65E0070B1CB /* CustomMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMarkerView.swift; sourceTree = "<group>"; };
 		E8BC2F3E2A27F8350070B1CB /* PreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
 		E8BC2F402A27FCDD0070B1CB /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
+		E8C24B612A3BC4C0006983E6 /* SettingsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModels.swift; sourceTree = "<group>"; };
+		E8C24B632A3BD5D6006983E6 /* CommentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCollectionViewCell.swift; sourceTree = "<group>"; };
 		E8C82F622A294582008AA927 /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		E8DB7FA92A1D98920098ED17 /* FunctionFinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FunctionFinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8DB7FAC2A1D98920098ED17 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -240,6 +244,7 @@
 				E8FADDE32A2D917D00805171 /* Notifications */,
 				E88EB32B2A2AB2CC005D7105 /* FormTableViewCell.swift */,
 				E81383962A2D4868006ED818 /* UserFollowTableViewCell.swift */,
+				E8C24B632A3BD5D6006983E6 /* CommentCollectionViewCell.swift */,
 				E88EB32E2A2ABD21005D7105 /* PhotoCollectionViewCell.swift */,
 			);
 			path = Cells;
@@ -264,6 +269,7 @@
 				E8A4B4452A365C8A00B717BA /* FeedCellType.swift */,
 				E8A27F872A2FD362009D4466 /* Post.swift */,
 				E8B037D62A37F83800F21931 /* NotificationCellType.swift */,
+				E8C24B612A3BC4C0006983E6 /* SettingsModels.swift */,
 				E8A27F892A2FD36F009D4466 /* Relationship.swift */,
 				E8A27F8B2A2FD379009D4466 /* Notification.swift */,
 				E8469F372A394BD100920070 /* UserInfo.swift */,
@@ -813,6 +819,7 @@
 				E8A27F8C2A2FD379009D4466 /* Notification.swift in Sources */,
 				E838D42E2A26CAB10020FCE3 /* SettingsViewController.swift in Sources */,
 				E8EC3D672A326D9E009D51DE /* PostCollectionViewCell.swift in Sources */,
+				E8C24B622A3BC4C0006983E6 /* SettingsModels.swift in Sources */,
 				E8A27F842A2FD32B009D4466 /* CaptionViewController.swift in Sources */,
 				E8DB7FAD2A1D98920098ED17 /* AppDelegate.swift in Sources */,
 				E8BC2F3F2A27F8350070B1CB /* PreviewView.swift in Sources */,
@@ -834,6 +841,7 @@
 				E8B037D12A37BDED00F21931 /* SearchResultsViewController.swift in Sources */,
 				E88EB3312A2ABD6B005D7105 /* ProfileInfoHeaderCollectionReusableView.swift in Sources */,
 				E8EC3D652A326B84009D51DE /* PostDatetimeCollectionViewCellViewModel.swift in Sources */,
+				E8C24B642A3BD5D6006983E6 /* CommentCollectionViewCell.swift in Sources */,
 				E8B037DB2A37F8DB00F21931 /* NotificationCellViewModel.swift in Sources */,
 				E871AB472A218A3B002C369A /* StorageManager.swift in Sources */,
 				E871AB492A21A660002C369A /* Extensions.swift in Sources */,

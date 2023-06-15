@@ -17,15 +17,7 @@ struct MyPlace {
     var long: Double
 }
 
-class MapViewController: UIViewController, CLLocationManagerDelegate, GMSMapViewDelegate, UITextFieldDelegate {
-    
-//    private let tableView: UITableView = {
-//        let tableView = UITableView()
-//
-//        return tableView
-//    }
-    
-//    private var viewModels = [FeedCellType]()
+final class MapViewController: UIViewController, CLLocationManagerDelegate, GMSMapViewDelegate, UITextFieldDelegate {
     
     let currentLocationMarker = GMSMarker()
     let locationManager = CLLocationManager()
@@ -34,28 +26,39 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, GMSMapView
     let customMarkerWidth: Int = 50
     let customMarkerHeight: Int = 70
     
-    let previewDemoData = [(title: "Frat Party", img: #imageLiteral(resourceName: "house"), time: 12), (title: "Sorority Party", img: #imageLiteral(resourceName: "mansion"), time: 10), (title: "House Party", img: #imageLiteral(resourceName: "shack"), time: 9)]
+//    let previewDemoData = [(title: "Frat Party", img: #imageLiteral(resourceName: "house"), time: 12), (title: "Sorority Party", img: #imageLiteral(resourceName: "mansion"), time: 10), (title: "House Party", img: #imageLiteral(resourceName: "shack"), time: 9)]
+    
+    private var viewModels = [[FeedCellType]]()
+    
+    private var allPosts: [(post: Post, owner: String)] = []
+    
+    private var observer: NSObjectProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Map"
-        self.view.backgroundColor = UIColor.systemBackground
-        myMapView.delegate = self
+        self.view.backgroundColor = .systemBackground
         
+        myMapView.delegate = self
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
         locationManager.startMonitoringSignificantLocationChanges()
         
+        fetchPosts()
+        
+        observer = NotificationCenter.default.addObserver(
+            forName: .didPostNotification,
+            object: nil,
+            queue: .main) { [weak self] _ in
+                self?.viewModels.removeAll()
+                self?.fetchPosts()
+            }
+                
         setupViews()
         
         initGoogleMaps()
-        
 //        txtFieldSearch.delegate = self
-        
-//        tableView.delegate = self
-//        tableView.dataSource = self
-        
     }
     
     //MARK: textfield
@@ -119,18 +122,191 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, GMSMapView
         let lat = (location?.coordinate.latitude)!
         let long = (location?.coordinate.longitude)!
         let camera = GMSCameraPosition.camera(withLatitude: lat, longitude: long, zoom: 17.0)
-        
+
         self.myMapView.animate(to: camera)
-        
-        showPartyMarkers(lat: lat, long: long)
+//
+//        showPartyMarkers(lat: lat, long: long)
     }
+    
+    private func fetchPosts() {
+        // mock data
+        guard let username = UserDefaults.standard.string(forKey: "username")
+        else {
+            return
+        }
+        let userGroup = DispatchGroup()
+        userGroup.enter()
+        
+        var allPosts: [(post: Post, owner: String)] = []
+        
+        DatabaseManager.shared.following(for: username) { usernames in
+            defer {
+                userGroup.leave()
+            }
+            
+            let users = usernames + [username]
+            for current in users {
+                userGroup.enter()
+                DatabaseManager.shared.posts(for: current) { result in
+                    DispatchQueue.main.async {
+                        defer {
+                            userGroup.leave()
+                        }
+                        
+                        switch result {
+                        case .success(let posts):
+                            allPosts.append(contentsOf: posts.compactMap({
+                                (post: $0, owner: current)
+                            }))
+                            
+                        case .failure:
+                            break
+                        }
+                    }
+                }
+            }
+        }
+        
+        userGroup.notify(queue: .main) {
+            let group = DispatchGroup()
+            self.allPosts = allPosts
+            allPosts.forEach{ model in
+                group.enter()
+                self.createViewModel(
+                    model: model.post,
+                    username: model.owner,
+                    completion: { success in
+                        defer {
+                            group.leave()
+                        }
+                        if !success {
+                            print("failed to create VM")
+                        }
+                    }
+                )
+            }
+            
+            group.notify(queue: .main) {
+                self.sortData()
+                let lat = 37.73764
+                let long = -122.25255
+                
+                self.showPartyMarkers(lat: lat, long: long)
+            }
+        }
+    }
+    
+    private func sortData() {
+        allPosts = allPosts.sorted(by: { first, second in
+            let date1 = first.post.date
+            let date2 = second.post.date
+            return date1 > date2
+        })
+        
+        viewModels = viewModels.sorted(by: { first, second in
+            var date1: Date?
+            var date2: Date?
+            first.forEach { type in
+                switch type {
+                case .timestamp(let vm):
+                    date1 = vm.date
+                default:
+                    break
+                }
+            }
+            second.forEach { type in
+                switch type {
+                case .timestamp(let vm):
+                    date2 = vm.date
+                default:
+                    break
+                }
+            }
+            if let date1 = date1, let date2 = date2 {
+                return date1 > date2
+            }
+            return false
+        })
+    }
+    
+    private func createViewModel(
+        model: Post,
+        username: String,
+        completion: @escaping (Bool) -> Void) {
+            guard let currentUsername = UserDefaults.standard.string(forKey: "username") else { return }
+            StorageManager.shared.profilePictureURL(for: username) { [weak self] profilePictureURL in
+                guard let postUrl = URL(string: model.postUrlString),
+                      let profilePhotoUrl = profilePictureURL
+                else {
+                    return
+                }
+                
+                let isLiked = model.likers.contains(currentUsername)
+                
+                let postData: [FeedCellType] = [
+                    .poster(
+                        viewModel: PosterCollectionViewCellViewModel(
+                            username: username,
+                            profilePictureURL: profilePhotoUrl
+                        )
+                    ),
+                    .post(
+                        viewModel:
+                            PostCollectionViewCellViewModel(
+                                postURL: postUrl
+                            )
+                    ),
+                    .actions(viewModel: PostActionsCollectionViewCellViewModel(isLiked: isLiked)),
+                    .likeCount(viewModel: PostLikesCollectionViewCellViewModel(likers: model.likers)),
+                    .caption(
+                        viewModel: PostCaptionCollectionViewCellViewModel(
+                            username: username,
+                            caption: model.caption
+                        )
+                    ),
+                    .timestamp(
+                        viewModel: PostDatetimeCollectionViewCellViewModel(
+                            date: DateFormatter.formatter.date(from: model.postedDate) ?? Date()
+                        )
+                    )
+                ]
+                self?.viewModels.append(postData)
+                completion(true)
+            }
+        }
+    
+//    private func createMockData() {
+//        let postData: [FeedCellType] = [
+//            .poster(
+//                viewModel: PosterCollectionViewCellViewModel(
+//                    username: "JustinWongaTonga",
+//                    profilePictureURL: URL(string: "https://iosacademy.io/assets/images/brand/icon.jpg")!
+//                )
+//            ),
+//            .post(
+//                viewModel: PostCollectionViewCellViewModel(
+//                    postURL: URL(string: "https://iosacademy.io/assets/images/courses/swiftui.png")!
+//                )
+//            ),
+//            .actions(viewModel: PostActionsCollectionViewCellViewModel(isLiked: true)),
+//            .likeCount(viewModel: PostLikesCollectionViewCellViewModel(likers: ["kanyewest"])),
+//            .caption(viewModel: PostCaptionCollectionViewCellViewModel(
+//                username: "JustinWongaTonga",
+//                caption: "This is an awesome first post!")
+//            ),
+//            .timestamp(viewModel: PostDatetimeCollectionViewCellViewModel(date: Date()))
+//        ]
+        
+//        viewModels.append(postData)
+//        collectionView?.reloadData()
+//    }
     
     // MARK: GOOGLE MAP DELEGATE
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         guard let customMarkerView = marker.iconView as? CustomMarkerView else { return false }
         let img = customMarkerView.img!
         let customMarker = CustomMarkerView(frame: CGRect(x: 0, y: 0, width: customMarkerWidth, height: customMarkerHeight), image: img, borderColor: UIColor.systemBackground, tag: customMarkerView.tag)
-        
+
         marker.iconView = customMarker
         
         return false
@@ -138,8 +314,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, GMSMapView
     
     func mapView(_ mapView: GMSMapView, markerInfoContents marker: GMSMarker) -> UIView? {
         guard let customMarkerView = marker.iconView as? CustomMarkerView else { return nil }
-        let data = previewDemoData[customMarkerView.tag]
-        previewView.setData(title: data.title, img: data.img, time: data.time)
+        let data = allPosts[customMarkerView.tag]
+        guard let postUrl = URL(string: data.post.postUrlString)
+        else {
+            fatalError()
+        }
+        previewView.setData(title: data.owner, img: postUrl, time: data.post.postedDate)
         return previewView
     }
     
@@ -158,57 +338,18 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, GMSMapView
     
     func showPartyMarkers(lat: Double, long: Double) {
         myMapView.clear()
-        for i in 0..<3 {
+        for i in 0..<allPosts.count {
             let marker = GMSMarker()
-            let customMarker = CustomMarkerView(frame: CGRect(x: 0, y: 0, width: customMarkerWidth, height: customMarkerHeight), image: previewDemoData[i].img, borderColor: UIColor.darkGray, tag: i)
+            let data = allPosts[i]
+            guard let postUrl = URL(string: data.post.postUrlString)
+            else {
+                fatalError()
+            }
+            let customMarker = CustomMarkerView(frame: CGRect(x: 0, y: 0, width: customMarkerWidth, height: customMarkerHeight), image: postUrl, borderColor: UIColor.darkGray, tag: i)
             marker.iconView=customMarker
             marker.position = CLLocationCoordinate2D(latitude: lat, longitude: long)
             marker.map = self.myMapView
         }
-    }
-    
-    private func fetchPosts() {
-        // mock data
-        guard let username = UserDefaults.standard.string(forKey: "username")
-        else {
-            return
-        }
-        DatabaseManager.shared.posts(for: username) { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let posts):
-                    print("\n\n\n Posts: \(posts.count)")
-                case .failure(let error):
-                    print(error)
-                }
-            }
-        }
-    }
-    
-    private func createMockData() {
-        let postData: [FeedCellType] = [
-            .poster(
-                viewModel: PosterCollectionViewCellViewModel(
-                    username: "JustinWongaTonga",
-                    profilePictureURL: URL(string: "https://iosacademy.io/assets/images/brand/icon.jpg")!
-                )
-            ),
-            .post(
-                viewModel: PostCollectionViewCellViewModel(
-                    postURL: URL(string: "https://iosacademy.io/assets/images/courses/swiftui.png")!
-                )
-            ),
-            .actions(viewModel: PostActionsCollectionViewCellViewModel(isLiked: true)),
-            .likeCount(viewModel: PostLikesCollectionViewCellViewModel(likers: ["kanyewest"])),
-            .caption(viewModel: PostCaptionCollectionViewCellViewModel(
-                username: "JustinWongaTonga",
-                caption: "This is an awesome first post!")
-            ),
-            .timestamp(viewModel: PostDatetimeCollectionViewCellViewModel(date: Date()))
-        ]
-        
-//        viewModels.append(postData)
-//        collectionView?.reloadData()
     }
     
     @objc func btnMyLocationAction() {
@@ -219,9 +360,11 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, GMSMapView
     }
     
     @objc func Tapped(tag: Int) {
-        let v=DetailsViewController()
-        v.passedData = previewDemoData[tag]
-        self.navigationController?.pushViewController(v, animated: true)
+        let vc = PostViewController(post: allPosts[tag].post, owner: allPosts[tag].owner)
+        navigationController?.pushViewController(vc, animated: true)
+//        let v = DetailsViewController()
+//        v.passedData = allPosts[tag]
+//        self.navigationController?.pushViewController(v, animated: true)
     }
     
 //    func setupTextField(textField: UITextField, img: UIImage){
@@ -247,7 +390,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, GMSMapView
 //        txtFieldSearch.heightAnchor.constraint(equalToConstant: 35).isActive=true
 //        setupTextField(textField: txtFieldSearch, img: #imageLiteral(resourceName: "map_Pin"))
         
-        previewView = PreviewView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 190))
+        previewView = PreviewView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 240))
         
         self.view.addSubview(btnMyLocation)
         btnMyLocation.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -90).isActive = true

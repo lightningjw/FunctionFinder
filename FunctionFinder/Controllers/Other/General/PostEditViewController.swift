@@ -69,7 +69,7 @@ class PostEditViewController: UIViewController, UICollectionViewDelegate, UIColl
         )
         collectionView.frame = CGRect(
             x: 0,
-            y: imageView.bottom+20,
+            y: imageView.bottom + 20,
             width: view.width,
             height: 100
         )
@@ -83,7 +83,8 @@ class PostEditViewController: UIViewController, UICollectionViewDelegate, UIColl
     }
 
     private func setUpFilters() {
-        guard let filterImage = UIImage(systemName: "camera.filters") else {
+        guard let filterImage = UIImage(systemName: "camera.filters")
+        else {
             return
         }
         filters.append(filterImage)
@@ -101,8 +102,7 @@ class PostEditViewController: UIViewController, UICollectionViewDelegate, UIColl
 
         if let outputcgImage = context.createCGImage(
             outputImage,
-            from: outputImage.extent
-        ) {
+            from: outputImage.extent) {
             let filteredImage = UIImage(cgImage: outputcgImage)
             imageView.image = filteredImage
         }
@@ -118,7 +118,8 @@ class PostEditViewController: UIViewController, UICollectionViewDelegate, UIColl
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: PhotoCollectionViewCell.identifier,
             for: indexPath
-        ) as? PhotoCollectionViewCell else {
+        ) as? PhotoCollectionViewCell
+        else {
             fatalError()
         }
         cell.configure(with: filters[indexPath.row])

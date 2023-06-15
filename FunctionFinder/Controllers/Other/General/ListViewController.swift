@@ -8,19 +8,19 @@
 import UIKit
 
 final class ListViewController: UIViewController {
-            
+
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.register(ListUserTableViewCell.self,
                            forCellReuseIdentifier: ListUserTableViewCell.identifier)
         return tableView
     }()
-    
+
     enum ListType {
         case followers(user: User)
         case following(user: User)
-        case likers(username: [String])
-        
+        case likers(usernames: [String])
+
         var title: String {
             switch self {
             case .followers:
@@ -32,22 +32,22 @@ final class ListViewController: UIViewController {
             }
         }
     }
-    
+
     let type: ListType
-    
+
     private var viewModels: [ListUserTableViewCellViewModel] = []
-    
+
     // MARK: - Init
-    
+
     init(type: ListType) {
         self.type = type
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError()
     }
-    
+
     // MARK: - Lifecycle
 
     override func viewDidLoad() {
@@ -59,12 +59,12 @@ final class ListViewController: UIViewController {
         tableView.dataSource = self
         configureViewModels()
     }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
     }
-    
+
     private func configureViewModels() {
         switch type {
         case .likers(let usernames):
@@ -98,16 +98,15 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModels.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ListUserTableViewCell.identifier, for: indexPath) as? ListUserTableViewCell
-        else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ListUserTableViewCell.identifier, for: indexPath) as? ListUserTableViewCell else {
             fatalError()
         }
         cell.configure(with: viewModels[indexPath.row])
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let username = viewModels[indexPath.row].username
@@ -120,7 +119,7 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
             }
         }
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
     }

@@ -9,19 +9,21 @@ import Foundation
 import UIKit
 
 class CustomMarkerView: UIView {
-    var img: UIImage!
+    var img: URL!
     var borderColor: UIColor!
     
-    init(frame: CGRect, image: UIImage, borderColor: UIColor, tag: Int){
+    init(frame: CGRect, image: URL, borderColor: UIColor, tag: Int){
         super.init(frame: frame)
         self.img = image
         self.borderColor = borderColor
         self.tag = tag
+        
         setupViews()
     }
     
     func setupViews() {
-        let imgView = UIImageView(image: img)
+        let imgView = UIImageView()
+        imgView.sd_setImage(with: img, completed: nil)
         imgView.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
         imgView.layer.cornerRadius = 25
         imgView.layer.borderColor = borderColor?.cgColor
