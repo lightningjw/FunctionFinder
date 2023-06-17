@@ -16,7 +16,13 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
     private var collectionView: UICollectionView?
 
     /// Feed viewModels
-    private var viewModels: [FeedCellType] = []
+    private var viewModels: [SinglePostCellType] = []
+    
+    private let commentBarView = CommentBarView()
+    private var commentSize: CGFloat = 0
+    
+    private var observer: NSObjectProtocol?
+    private var hideObserver: NSObjectProtocol?
     
     // MARK: - Init
     
@@ -39,12 +45,60 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
         title = "Post"
         view.backgroundColor = .systemBackground
         configureCollectionView()
+        view.addSubview(commentBarView)
+        commentBarView.delegate = self
         fetchPost()
+        observeKeyboardChange()
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         collectionView?.frame = view.bounds
+        commentBarView.frame = CGRect(
+            x: 0,
+            y: view.height - view.safeAreaInsets.bottom - 70,
+            width: view.width,
+            height: 70
+        )
+    }
+    
+    private func observeKeyboardChange() {
+        observer = NotificationCenter.default.addObserver(
+            forName: UIResponder.keyboardWillChangeFrameNotification,
+            object: nil,
+            queue: .main) { notification in
+            guard let userInfo = notification.userInfo,
+                  let height = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height
+            else {
+                return
+            }
+            UIView.animate(withDuration: 0.2) {
+                self.commentBarView.frame = CGRect(
+                    x: 0,
+                    y: self.view.height - 60 - height,
+                    width: self.view.width,
+                    height: 70
+                )
+            }
+        }
+        
+        hideObserver = NotificationCenter.default.addObserver(
+            forName: UIResponder.keyboardWillHideNotification,
+            object: nil,
+            queue: .main) { notification in
+            guard let userInfo = notification.userInfo
+            else {
+                return
+            }
+            UIView.animate(withDuration: 0.2) {
+                self.commentBarView.frame = CGRect(
+                    x: 0,
+                    y: self.view.height - self.view.safeAreaInsets.bottom - 70,
+                    width: self.view.width,
+                    height: 70
+                )
+            }
+        }
     }
 
     private func fetchPost() {
@@ -80,39 +134,62 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
     ) {
         guard let currentUsername = UserDefaults.standard.string(forKey: "username") else { return }
         StorageManager.shared.profilePictureURL(for: username) { [weak self] profilePictureURL in
-            guard let postUrl = URL(string: model.postUrlString),
+            guard let strongSelf = self,
+                  let postUrl = URL(string: model.postUrlString),
                   let profilePhotoUrl = profilePictureURL else {
+                completion(false)
                 return
             }
 
             let isLiked = model.likers.contains(currentUsername)
 
-            let postData: [FeedCellType] = [
-                .poster(
-                    viewModel: PosterCollectionViewCellViewModel(
-                        username: username,
-                        profilePictureURL: profilePhotoUrl
-                    )
-                ),
-                .post(
-                    viewModel: PostCollectionViewCellViewModel(
-                        postURL: postUrl
-                    )
-                ),
-                .actions(viewModel: PostActionsCollectionViewCellViewModel(isLiked: isLiked)),
-                .likeCount(viewModel: PostLikesCollectionViewCellViewModel(likers: model.likers)),
-                .caption(
-                    viewModel: PostCaptionCollectionViewCellViewModel(
-                        username: username,
-                        caption: model.caption)),
-                .timestamp(
-                    viewModel: PostDatetimeCollectionViewCellViewModel(
-                        date: DateFormatter.formatter.date(from: model.postedDate) ?? Date()
-                    )
+            DatabaseManager.shared.getComments(postID: strongSelf.post.id,
+                                               owner: strongSelf.owner) { comments in
+                var postData: [SinglePostCellType] = [
+                    .poster(
+                        viewModel: PosterCollectionViewCellViewModel(
+                            username: username,
+                            profilePictureURL: profilePhotoUrl
+                        )
+                    ),
+                    .post(
+                        viewModel: PostCollectionViewCellViewModel(
+                            postURL: postUrl
+                        )
+                    ),
+                    .actions(viewModel: PostActionsCollectionViewCellViewModel(isLiked: isLiked)),
+                    .likeCount(viewModel: PostLikesCollectionViewCellViewModel(likers: model.likers)),
+                    .caption(
+                        viewModel: PostCaptionCollectionViewCellViewModel(
+                            username: username,
+                            caption: model.caption)),
+                ]
+                
+                postData.append(
+                    .comment(viewModel: comments)
                 )
-            ]
-            self?.viewModels = postData
-            completion(true)
+                
+                comments.forEach { comment in
+                    self?.commentSize += 45.0
+                }
+                
+//                if let comment = comments.first {
+//                    postData.append(
+//                        .comment(viewModel: comment)
+//                    )
+//                }
+                
+//                postData.append(
+//                    .timestamp(
+//                        viewModel: PostDatetimeCollectionViewCellViewModel(
+//                            date: DateFormatter.formatter.date(from: model.postedDate) ?? Date()
+//                        )
+//                    )
+//                )
+                
+                self?.viewModels = postData
+                completion(true)
+            }
         }
     }
 
@@ -184,7 +261,40 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
             }
             cell.configure(with: viewModel)
             return cell
+        case .comment(let viewModel):
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: CommentCollectionViewCell.identifier,
+                for: indexPath
+            ) as? CommentCollectionViewCell else {
+                fatalError()
+            }
+            cell.contentView.backgroundColor = .blue
+            cell.configure(with: viewModel)
+            return cell
         }
+    }
+}
+
+extension PostViewController: CommentBarViewDelegate {
+    func commentBarViewDidTapDone(_ commentBarView: CommentBarView, withText text: String) {
+        guard let currentUsername = UserDefaults.standard.string(forKey: "username")
+        else {
+            return
+        }
+        DatabaseManager.shared.createComment(
+            comment: Comment(
+                username: currentUsername,
+                comment: text,
+                dateString: String.date(from: Date()) ?? ""),
+            postID: post.id,
+            owner: owner) { success in
+                DispatchQueue.main.async {
+                    guard success
+                    else {
+                        return
+                    }
+                }
+            }
     }
 }
 
@@ -197,7 +307,7 @@ extension PostViewController: PostLikesCollectionViewCellDelegate {
 }
 
 extension PostViewController: PostCaptionCollectionViewCellDelegate {
-    func postCaptionCollectionViewCellDidTapCaptioon(_ cell: PostCaptionCollectionViewCell) {
+    func postCaptionCollectionViewCellDidTapCaption(_ cell: PostCaptionCollectionViewCell) {
         print("tapped caption")
     }
 }
@@ -226,6 +336,7 @@ extension PostViewController: PostActionsCollectionViewCellDelegate {
 //        let vc = PostViewController(post: tuple.post, owner: tuple.owner)
 //        vc.title = "Post"
 //        navigationController?.pushViewController(vc, animated: true)
+        commentBarView.field.becomeFirstResponder()
     }
 
     func postActionsCollectionViewCellDidTapLike(_ cell: PostActionsCollectionViewCell, isLiked: Bool, index: Int) {
@@ -306,7 +417,7 @@ extension PostViewController: PosterCollectionViewCellDelegate {
 
 extension PostViewController {
     func configureCollectionView() {
-        let sectionHeight: CGFloat = 300 + view.width
+        var sectionHeight: CGFloat = 200 + view.width
         let collectionView = UICollectionView(
             frame: .zero,
             collectionViewLayout: UICollectionViewCompositionalLayout(sectionProvider: { index, _ -> NSCollectionLayoutSection? in
@@ -346,13 +457,14 @@ extension PostViewController {
                         heightDimension: .absolute(60)
                     )
                 )
-
-                let timestampItem = NSCollectionLayoutItem(
+                
+                let commentItem = NSCollectionLayoutItem(
                     layoutSize: NSCollectionLayoutSize(
                         widthDimension: .fractionalWidth(1),
-                        heightDimension: .absolute(40)
+                        heightDimension: .absolute(self.commentSize)
                     )
                 )
+                sectionHeight += self.commentSize
 
                 // Group
                 let group = NSCollectionLayoutGroup.vertical(
@@ -366,7 +478,7 @@ extension PostViewController {
                         actionsItem,
                         likeCountItem,
                         captionItem,
-                        timestampItem
+                        commentItem
                     ]
                 )
 

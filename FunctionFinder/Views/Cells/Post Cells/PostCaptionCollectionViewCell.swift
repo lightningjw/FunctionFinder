@@ -8,7 +8,7 @@
 import UIKit
 
 protocol PostCaptionCollectionViewCellDelegate: AnyObject {
-    func postCaptionCollectionViewCellDidTapCaptioon(_ cell: PostCaptionCollectionViewCell)
+    func postCaptionCollectionViewCellDidTapCaption(_ cell: PostCaptionCollectionViewCell)
 }
 
 class PostCaptionCollectionViewCell: UICollectionViewCell {
@@ -38,12 +38,12 @@ class PostCaptionCollectionViewCell: UICollectionViewCell {
     }
 
     @objc func didTapCaption() {
-        delegate?.postCaptionCollectionViewCellDidTapCaptioon(self)
+        delegate?.postCaptionCollectionViewCellDidTapCaption(self)
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        let size = label.sizeThatFits(CGSize(width: contentView.bounds.size.width-12,
+        let size = label.sizeThatFits(CGSize(width: contentView.bounds.size.width - 12,
                                              height: contentView.bounds.size.height))
         label.frame = CGRect(x: 12, y: 3, width: size.width, height: size.height)
     }
