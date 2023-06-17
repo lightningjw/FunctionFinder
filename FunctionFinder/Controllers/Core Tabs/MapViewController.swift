@@ -398,6 +398,7 @@ final class MapViewController: UIViewController, CLLocationManagerDelegate, GMSM
         btnMyLocation.widthAnchor.constraint(equalToConstant: 50).isActive = true
         btnMyLocation.heightAnchor.constraint(equalTo: btnMyLocation.widthAnchor).isActive = true
         btnMyLocation.backgroundColor = UIColor.clear
+        
     }
     
     let myMapView: GMSMapView = {

@@ -8,7 +8,7 @@
 import UIKit
 
 protocol PostLikesCollectionViewCellDelegate: AnyObject {
-    func postLikesCollectionViewCellDidTapLikeCount(_ cell: PostLikesCollectionViewCell)
+    func postLikesCollectionViewCellDidTapLikeCount(_ cell: PostLikesCollectionViewCell, index: Int)
 }
 
 class PostLikesCollectionViewCell: UICollectionViewCell {
@@ -41,7 +41,7 @@ class PostLikesCollectionViewCell: UICollectionViewCell {
     }
 
     @objc func didTapLabel() {
-//        delegate?.postLikesCollectionViewCellDidTapLikeCount(self, index: index)
+        delegate?.postLikesCollectionViewCellDidTapLikeCount(self, index: index)
     }
 
     override func layoutSubviews() {

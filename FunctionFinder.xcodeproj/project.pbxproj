@@ -53,6 +53,9 @@
 		E8A27F942A2FDBE1009D4466 /* LoginHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A27F932A2FDBE1009D4466 /* LoginHeaderView.swift */; };
 		E8A27F962A2FDE6C009D4466 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A27F952A2FDE6C009D4466 /* TextField.swift */; };
 		E8A4B4462A365C8A00B717BA /* FeedCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A4B4452A365C8A00B717BA /* FeedCellType.swift */; };
+		E8A9917B2A3E66BD000D3C95 /* StoryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A9917A2A3E66BD000D3C95 /* StoryHeaderView.swift */; };
+		E8A9917D2A3E674E000D3C95 /* StoriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A9917C2A3E674E000D3C95 /* StoriesViewModel.swift */; };
+		E8A9917F2A3E6993000D3C95 /* StoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A9917E2A3E6993000D3C95 /* StoryCollectionViewCell.swift */; };
 		E8B037D12A37BDED00F21931 /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8B037D02A37BDED00F21931 /* SearchResultsViewController.swift */; };
 		E8B037D32A37D01000F21931 /* NotificationCommentEventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8B037D22A37D01000F21931 /* NotificationCommentEventTableViewCell.swift */; };
 		E8B037D52A37F75500F21931 /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8B037D42A37F75500F21931 /* NotificationsManager.swift */; };
@@ -161,6 +164,9 @@
 		E8A27F932A2FDBE1009D4466 /* LoginHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginHeaderView.swift; sourceTree = "<group>"; };
 		E8A27F952A2FDE6C009D4466 /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
 		E8A4B4452A365C8A00B717BA /* FeedCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCellType.swift; sourceTree = "<group>"; };
+		E8A9917A2A3E66BD000D3C95 /* StoryHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryHeaderView.swift; sourceTree = "<group>"; };
+		E8A9917C2A3E674E000D3C95 /* StoriesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoriesViewModel.swift; sourceTree = "<group>"; };
+		E8A9917E2A3E6993000D3C95 /* StoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		E8B037D02A37BDED00F21931 /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
 		E8B037D22A37D01000F21931 /* NotificationCommentEventTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCommentEventTableViewCell.swift; sourceTree = "<group>"; };
 		E8B037D42A37F75500F21931 /* NotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsManager.swift; sourceTree = "<group>"; };
@@ -295,6 +301,8 @@
 				E8A27F932A2FDBE1009D4466 /* LoginHeaderView.swift */,
 				E80483632A3A630100ECE052 /* FollowButton.swift */,
 				E80483652A3A702400ECE052 /* ListUserTableViewCell.swift */,
+				E8A9917E2A3E6993000D3C95 /* StoryCollectionViewCell.swift */,
+				E8A9917A2A3E66BD000D3C95 /* StoryHeaderView.swift */,
 				E8A27F952A2FDE6C009D4466 /* TextField.swift */,
 			);
 			path = Views;
@@ -403,6 +411,7 @@
 				E8EC3D5C2A326A9C009D51DE /* PostCollectectionViewCellViewModel.swift */,
 				E8EC3D5E2A326ADD009D51DE /* PostActionsCollectionViewCellViewModel.swift */,
 				E8EC3D602A326B09009D51DE /* PostLikesCollectionViewCellViewModel.swift */,
+				E8A9917C2A3E674E000D3C95 /* StoriesViewModel.swift */,
 				E8EC3D622A326B4C009D51DE /* PostCaptionCollectionViewCellViewModel.swift */,
 				E80483672A3A716700ECE052 /* ListUserTableViewCellViewModel.swift */,
 				E8469F352A39290700920070 /* ProfileInfoHeaderCountViewViewModel.swift */,
@@ -788,6 +797,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E8A9917D2A3E674E000D3C95 /* StoriesViewModel.swift in Sources */,
 				E871AB362A21733C002C369A /* NotificationsViewController.swift in Sources */,
 				E871AB452A218A1A002C369A /* AuthManager.swift in Sources */,
 				E87718BA2A2E96BE008B1A53 /* PostTableViewCell.swift in Sources */,
@@ -831,6 +841,8 @@
 				E838D42E2A26CAB10020FCE3 /* SettingsViewController.swift in Sources */,
 				E8EC3D672A326D9E009D51DE /* PostCollectionViewCell.swift in Sources */,
 				E8C24B622A3BC4C0006983E6 /* SettingsModels.swift in Sources */,
+				E8A9917F2A3E6993000D3C95 /* StoryCollectionViewCell.swift in Sources */,
+				E8A9917B2A3E66BD000D3C95 /* StoryHeaderView.swift in Sources */,
 				E8A27F842A2FD32B009D4466 /* CaptionViewController.swift in Sources */,
 				E8DB7FAD2A1D98920098ED17 /* AppDelegate.swift in Sources */,
 				E8BC2F3F2A27F8350070B1CB /* PreviewView.swift in Sources */,

@@ -170,6 +170,7 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 )
                 
                 comments.forEach { comment in
+                    // TODO: - NEED TO DYNAMICALLY CALCULATE
                     self?.commentSize += 45.0
                 }
                 
@@ -299,16 +300,24 @@ extension PostViewController: CommentBarViewDelegate {
 }
 
 extension PostViewController: PostLikesCollectionViewCellDelegate {
-    func postLikesCollectionViewCellDidTapLikeCount(_ cell: PostLikesCollectionViewCell) {
+    func postLikesCollectionViewCellDidTapLikeCount(_ cell: PostLikesCollectionViewCell, index: Int) {
 //        HapticManager.shared.vibrateForSelection()
-        let vc = ListViewController(type: .likers(usernames: []))
+        let vc = ListViewController(type: .likers(usernames: post.likers))
         navigationController?.pushViewController(vc, animated: true)
     }
 }
 
 extension PostViewController: PostCaptionCollectionViewCellDelegate {
     func postCaptionCollectionViewCellDidTapCaption(_ cell: PostCaptionCollectionViewCell) {
-        print("tapped caption")
+        DatabaseManager.shared.findUser(username: owner) { [weak self] user in
+            DispatchQueue.main.async {
+                guard let user = user else {
+                    return
+                }
+                let vc = ProfileViewController(user: user)
+                self?.navigationController?.pushViewController(vc, animated: true)
+            }
+        }
     }
 }
 
@@ -342,32 +351,28 @@ extension PostViewController: PostActionsCollectionViewCellDelegate {
     func postActionsCollectionViewCellDidTapLike(_ cell: PostActionsCollectionViewCell, isLiked: Bool, index: Int) {
 //        AnalyticsManager.shared.logFeedInteraction(.like)
 //        HapticManager.shared.vibrateForSelection()
-//        let tuple = allPosts[index]
-//        DatabaseManager.shared.updateLikeState(
-//            state: isLiked ? .like : .unlike,
-//            postID: tuple.post.id,
-//            owner: tuple.owner) { success in
-//            guard success else {
-//                return
-//            }
-//            print("Failed to like")
-//        }
+        DatabaseManager.shared.updateLikeState(
+            state: isLiked ? .like : .unlike,
+            postID: post.id,
+            owner: owner) { success in
+            guard success else {
+                return
+            }
+        }
     }
 }
 
 extension PostViewController: PostCollectionViewCellDelegate {
     func postCollectionViewCellDidLike(_ cell: PostCollectionViewCell, index: Int) {
 //        AnalyticsManager.shared.logFeedInteraction(.doubleTapToLike)
-//        let tuple = allPosts[index]
-//        DatabaseManager.shared.updateLikeState(
-//            state: .like,
-//            postID: tuple.post.id,
-//            owner: tuple.owner) { success in
-//            guard success else {
-//                return
-//            }
-//            print("Failed to like")
-//        }
+        DatabaseManager.shared.updateLikeState(
+            state: .like,
+            postID: post.id,
+            owner: owner) { success in
+            guard success else {
+                return
+            }
+        }
     }
 }
 

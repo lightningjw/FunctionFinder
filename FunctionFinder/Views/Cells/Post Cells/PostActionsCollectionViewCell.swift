@@ -80,9 +80,7 @@ class PostActionsCollectionViewCell: UICollectionViewCell {
             likeButton.tintColor = .systemRed
         }
 
-        delegate?.postActionsCollectionViewCellDidTapLike(self,
-                                                          isLiked: !isLiked,
-                                                          index: index)
+        delegate?.postActionsCollectionViewCellDidTapLike(self, isLiked: !isLiked, index: index)
         self.isLiked = !isLiked
     }
 
