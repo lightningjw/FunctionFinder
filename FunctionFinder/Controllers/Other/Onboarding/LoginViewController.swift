@@ -215,6 +215,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 switch result{
                 case .success:
                     // user logged in
+                    HapticsManager.shared.vibrate(for: .success)
                     let vc = TabBarViewController()
                     vc.modalPresentationStyle = .fullScreen
                     self?.present(vc,
@@ -222,6 +223,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                                   completion: nil)
                 case .failure (let error):
                     //error occured
+                    HapticsManager.shared.vibrate(for: .error)
                     let alert = UIAlertController(title: "Log In Error",
                                                   message: "We were unable to log you in.",
                                                   preferredStyle: .alert)

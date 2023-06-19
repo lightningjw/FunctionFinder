@@ -9,12 +9,18 @@ import Firebase
 import UIKit
 import GoogleMaps
 import GooglePlaces
+import Appirater
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        Appirater.appLaunched(true)
+//        Appirater.setAppId("3182731283")
+        Appirater.setDebug(false)
+        Appirater.setDaysUntilPrompt(3)
         
         GMSServices.provideAPIKey("AIzaSyBzl-jZ74yYVJH6-jeKpKnBgsYUoQnmzJc")
         GMSPlacesClient.provideAPIKey("AIzaSyBzl-jZ74yYVJH6-jeKpKnBgsYUoQnmzJc")
@@ -39,6 +45,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     // MARK: UISceneSession Lifecycle
+    
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        Appirater.appEnteredForeground(true)
+    }
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.

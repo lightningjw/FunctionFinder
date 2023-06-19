@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Appirater
 
 class PostViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
@@ -49,6 +50,8 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
         commentBarView.delegate = self
         fetchPost()
         observeKeyboardChange()
+        
+//        Appirater.tryToShowPrompt()
     }
 
     override func viewDidLayoutSubviews() {
@@ -301,7 +304,7 @@ extension PostViewController: CommentBarViewDelegate {
 
 extension PostViewController: PostLikesCollectionViewCellDelegate {
     func postLikesCollectionViewCellDidTapLikeCount(_ cell: PostLikesCollectionViewCell, index: Int) {
-//        HapticManager.shared.vibrateForSelection()
+        HapticsManager.shared.vibrateForSelection()
         let vc = ListViewController(type: .likers(usernames: post.likers))
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -323,7 +326,7 @@ extension PostViewController: PostCaptionCollectionViewCellDelegate {
 
 extension PostViewController: PostActionsCollectionViewCellDelegate {
     func postActionsCollectionViewCellDidTapShare(_ cell: PostActionsCollectionViewCell, index: Int) {
-//        AnalyticsManager.shared.logFeedInteraction(.share)
+        AnalyticsManager.shared.logFeedInteraction(.share)
         let cellType = viewModels[index]
         switch cellType {
         case .post(let viewModel):
@@ -339,9 +342,9 @@ extension PostViewController: PostActionsCollectionViewCellDelegate {
     }
 
     func postActionsCollectionViewCellDidTapComment(_ cell: PostActionsCollectionViewCell, index: Int) {
-//        AnalyticsManager.shared.logFeedInteraction(.comment)
+        AnalyticsManager.shared.logFeedInteraction(.comment)
 //        let tuple = allPosts[index]
-//        HapticManager.shared.vibrateForSelection()
+        HapticsManager.shared.vibrateForSelection()
 //        let vc = PostViewController(post: tuple.post, owner: tuple.owner)
 //        vc.title = "Post"
 //        navigationController?.pushViewController(vc, animated: true)
@@ -349,8 +352,8 @@ extension PostViewController: PostActionsCollectionViewCellDelegate {
     }
 
     func postActionsCollectionViewCellDidTapLike(_ cell: PostActionsCollectionViewCell, isLiked: Bool, index: Int) {
-//        AnalyticsManager.shared.logFeedInteraction(.like)
-//        HapticManager.shared.vibrateForSelection()
+        AnalyticsManager.shared.logFeedInteraction(.like)
+        HapticsManager.shared.vibrateForSelection()
         DatabaseManager.shared.updateLikeState(
             state: isLiked ? .like : .unlike,
             postID: post.id,
@@ -364,7 +367,7 @@ extension PostViewController: PostActionsCollectionViewCellDelegate {
 
 extension PostViewController: PostCollectionViewCellDelegate {
     func postCollectionViewCellDidLike(_ cell: PostCollectionViewCell, index: Int) {
-//        AnalyticsManager.shared.logFeedInteraction(.doubleTapToLike)
+        AnalyticsManager.shared.logFeedInteraction(.doubleTapToLike)
         DatabaseManager.shared.updateLikeState(
             state: .like,
             postID: post.id,
@@ -402,7 +405,7 @@ extension PostViewController: PosterCollectionViewCellDelegate {
         }))
         sheet.addAction(UIAlertAction(title: "Report Post", style: .destructive, handler: { _ in
             // Report
-//            AnalyticsManager.shared.logFeedInteraction(.reported)
+            AnalyticsManager.shared.logFeedInteraction(.reported)
         }))
         present(sheet, animated: true)
     }

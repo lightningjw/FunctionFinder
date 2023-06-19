@@ -553,6 +553,8 @@
 				E8DB7FBB2A1D98950098ED17 /* Sources */,
 				E8DB7FBC2A1D98950098ED17 /* Frameworks */,
 				E8DB7FBD2A1D98950098ED17 /* Resources */,
+				AF15AC7DFAEAEC645FF8CD74 /* [CP] Embed Pods Frameworks */,
+				7F2042A659532A6608D90911 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -734,6 +736,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		7F2042A659532A6608D90911 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FunctionFinderTests/Pods-FunctionFinderTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FunctionFinderTests/Pods-FunctionFinderTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FunctionFinderTests/Pods-FunctionFinderTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		8E777696619C9C699E924DF4 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -749,6 +768,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FunctionFinder/Pods-FunctionFinder-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AF15AC7DFAEAEC645FF8CD74 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FunctionFinderTests/Pods-FunctionFinderTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FunctionFinderTests/Pods-FunctionFinderTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FunctionFinderTests/Pods-FunctionFinderTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		BF105ACBD2831B9DB51763F9 /* [CP] Check Pods Manifest.lock */ = {

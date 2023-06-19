@@ -182,12 +182,14 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate, UIImage
             DispatchQueue.main.async {
                 switch registered {
                 case .success(let user):
+                    HapticsManager.shared.vibrate(for: .success)
                     UserDefaults.standard.setValue(user.email, forKey: "email")
                     UserDefaults.standard.setValue(user.username, forKey: "username")
                     
                     self?.navigationController?.popToRootViewController(animated: true)
                     self?.completion?()
                 case .failure(let error):
+                    HapticsManager.shared.vibrate(for: .error)
                     print("\n\nSign Up Error: \(error)")
                 }
             }

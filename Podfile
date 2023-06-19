@@ -37,6 +37,23 @@ target 'FunctionFinder' do
   target 'FunctionFinderTests' do
     inherit! :search_paths
     # Pods for testing
+    pod 'GoogleMaps'
+    pod 'GooglePlaces'
+  #  pod 'GooglePlacePicker'
+    pod 'GoogleUtilities'
+    pod 'Appirater'
+    pod 'SDWebImage'
+
+    # Firebase
+    pod 'Firebase/Core'
+    pod 'Firebase/Firestore'
+    pod 'FirebaseCoreExtension'
+    pod 'Firebase/Auth'
+    pod 'Firebase/Database'
+    pod 'Firebase/Analytics'
+    pod 'Firebase/Crashlytics'
+    pod 'Firebase/Storage'
+    
   end
 
   target 'FunctionFinderUITests' do
