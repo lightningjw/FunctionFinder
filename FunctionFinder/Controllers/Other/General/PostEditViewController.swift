@@ -74,7 +74,7 @@ class PostEditViewController: UIViewController, UICollectionViewDelegate, UIColl
             height: 100
         )
     }
-
+    
     @objc func didTapNext() {
         guard let current = imageView.image else { return }
         let vc = CaptionViewController(image: current)

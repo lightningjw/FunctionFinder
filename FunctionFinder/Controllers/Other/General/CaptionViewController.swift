@@ -6,8 +6,11 @@
 //
 
 import UIKit
+import GooglePlaces
 
 class CaptionViewController: UIViewController, UITextViewDelegate {
+    
+    private var venue: CLLocation
 
     private let image: UIImage
     
@@ -22,15 +25,56 @@ class CaptionViewController: UIViewController, UITextViewDelegate {
         let textView = UITextView()
         textView.text = "Add caption..."
         textView.backgroundColor = .secondarySystemBackground
-        textView.font = .systemFont(ofSize: 22)
+        textView.font = .systemFont(ofSize: 20)
         textView.textContainerInset = UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
+        textView.tag = 1
         return textView
     }()
     
+    private let startLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Event Start:"
+        label.textColor = .secondaryLabel
+        label.textAlignment = .center
+        return label
+    }()
+            
+    private let startPicker: UIDatePicker = {
+        let datePicker = UIDatePicker()
+        datePicker.minimumDate = Date()
+        datePicker.contentHorizontalAlignment = .center
+        return datePicker
+    }()
+    
+    private let endLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Event End:"
+        label.textColor = .secondaryLabel
+        label.textAlignment = .center
+        return label
+    }()
+            
+    private let endPicker: UIDatePicker = {
+        let datePicker = UIDatePicker()
+        datePicker.minimumDate = Date()
+        datePicker.contentHorizontalAlignment = .center
+        return datePicker
+    }()
+    
+    private let addressPicker: UITextView = {
+        let textView = UITextView()
+        textView.backgroundColor = .secondarySystemBackground
+        textView.text = "Enter address..."
+        textView.font = .systemFont(ofSize: 20)
+        textView.tag = 2
+        return textView
+    }()
+        
     // MARK: - Init
     
     init(image: UIImage) {
         self.image = image
+        self.venue = CLLocation()
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -45,6 +89,12 @@ class CaptionViewController: UIViewController, UITextViewDelegate {
         imageView.image = image
         view.addSubview(textView)
         textView.delegate = self
+        view.addSubview(startLabel)
+        view.addSubview(startPicker)
+        view.addSubview(endLabel)
+        view.addSubview(endPicker)
+        view.addSubview(addressPicker)
+        addressPicker.delegate = self
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Post",
                                                             style: .done,
                                                             target: self,
@@ -56,6 +106,32 @@ class CaptionViewController: UIViewController, UITextViewDelegate {
         var caption = textView.text ?? ""
         if caption == "Add caption..." {
             caption = ""
+        }
+        
+        addressPicker.resignFirstResponder()
+        var address = addressPicker.text ?? ""
+        if address == "Enter address..." || address == "" {
+            let alert = UIAlertController(title: "Whoops", message: "Please make sure to enter an address.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+            present(alert, animated: true)
+            return
+        }
+        
+        let geoCoder = CLGeocoder()
+        geoCoder.geocodeAddressString(address) { (placemarks, error) in
+            guard
+                let placemarks = placemarks,
+                let location = placemarks.first?.location
+            else {
+                // handle no location found
+                let alert = UIAlertController(title: "Whoops", message: "Address invalid.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+                self.present(alert, animated: true)
+                return
+            }
+            self.venue = location
+            print (self.venue.coordinate)
+            return
         }
         
         // Generate post ID
@@ -126,13 +202,80 @@ class CaptionViewController: UIViewController, UITextViewDelegate {
             x: 20,
             y: imageView.bottom + 20,
             width: view.width - 40,
-            height: 100
+            height: 60
+        )
+        startLabel.frame = CGRect(
+            x: 30,
+            y: textView.bottom + 40,
+            width: 90,
+            height: 40
+        )
+        startPicker.frame = CGRect(
+            x: 110,
+            y: textView.bottom + 40,
+            width: view.width - 120,
+            height: 40
+        )
+        endLabel.frame = CGRect(
+            x: 30,
+            y: startLabel.bottom + 20,
+            width: 90,
+            height: 40
+        )
+        endPicker.frame = CGRect(
+            x: 110,
+            y: startLabel.bottom + 20,
+            width: view.width - 120,
+            height: 40
+        )
+        addressPicker.frame = CGRect(
+            x: 20,
+            y: endLabel.bottom + 20,
+            width: view.width - 40,
+            height: 60
         )
     }
 
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.text == "Add caption..." {
-            textView.text = nil
+    func textViewDidBeginEditing(_ textView: UITextView)  {
+        switch textView.tag {
+        case 1:
+            if textView.text == "Add caption..." {
+                textView.text = nil
+            }
+            return
+        case 2:
+            textView.resignFirstResponder()
+            let acController = GMSAutocompleteViewController()
+            acController.delegate = self
+            present(acController, animated: true, completion: nil)
+            return
+        default:
+            return
         }
+    }
+    
+//    func textViewDidBeginEditing(_ addressPicker: UITextView) {
+//        addressPicker.resignFirstResponder()
+//        let acController = GMSAutocompleteViewController()
+//        acController.delegate = self
+//        present(acController, animated: true, completion: nil)
+//    }
+}
+
+extension CaptionViewController: GMSAutocompleteViewControllerDelegate {
+    func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
+        // Get the place name from 'GMSAutocompleteViewController'
+        // Then display the name in textField
+        addressPicker.text = place.name
+        // Dismiss the GMSAutocompleteViewController when something is selected
+        dismiss(animated: true, completion: nil)
+    }
+    func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
+        // Handle the error
+        print("Error: ", error.localizedDescription)
+    }
+    func wasCancelled(_ viewController: GMSAutocompleteViewController) {
+        // Dismiss when the user canceled the action
+        dismiss(animated: true, completion: nil)
     }
 }
