@@ -9,7 +9,7 @@ import UIKit
 
 class DetailsViewController: UIViewController {
     
-    var passedData = (Post(id: "", caption: "", postedDate: "", postUrlString: "", likers: []), "")
+    var passedData = (Post(id: "", caption: "", postedDate: "", postUrlString: "", likers: [], start: "", end: "", addressLat: 0.0, addressLong: 0.0), "")
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,7 +56,7 @@ class DetailsViewController: UIViewController {
         lblTime.topAnchor.constraint(equalTo: lblTitle.bottomAnchor).isActive = true
         lblTime.rightAnchor.constraint(equalTo: lblTitle.rightAnchor).isActive = true
         lblTime.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        lblTime.text = "$\(passedData.0.postedDate)"
+        lblTime.text = "$\(passedData.0.endTime)"
         
         containerView.addSubview(lblDescription)
         lblDescription.leftAnchor.constraint(equalTo: lblTitle.leftAnchor).isActive = true

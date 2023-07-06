@@ -188,10 +188,11 @@ final class MapViewController: UIViewController, CLLocationManagerDelegate, GMSM
             
             group.notify(queue: .main) {
                 self.sortData()
-                let lat = 37.73764
-                let long = -122.25255
+//                let lat = 37.73764
+//                let long = -122.25255
                 
-                self.showPartyMarkers(lat: lat, long: long)
+//                self.showPartyMarkers(lat: lat, long: long)
+                self.showPartyMarkers()
             }
         }
     }
@@ -336,7 +337,7 @@ final class MapViewController: UIViewController, CLLocationManagerDelegate, GMSM
         marker.iconView = customMarker
     }
     
-    func showPartyMarkers(lat: Double, long: Double) {
+    func showPartyMarkers() {
         myMapView.clear()
         for i in 0..<allPosts.count {
             let marker = GMSMarker()
@@ -347,7 +348,7 @@ final class MapViewController: UIViewController, CLLocationManagerDelegate, GMSM
             }
             let customMarker = CustomMarkerView(frame: CGRect(x: 0, y: 0, width: customMarkerWidth, height: customMarkerHeight), image: postUrl, borderColor: UIColor.darkGray, tag: i)
             marker.iconView=customMarker
-            marker.position = CLLocationCoordinate2D(latitude: lat, longitude: long)
+            marker.position = CLLocationCoordinate2D(latitude: data.post.addressLat, longitude: data.post.addressLong)
             marker.map = self.myMapView
         }
     }

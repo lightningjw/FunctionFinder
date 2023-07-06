@@ -117,6 +117,14 @@ class CaptionViewController: UIViewController, UITextViewDelegate {
             return
         }
         
+        guard let start = String.date(from: startPicker.date),
+              let end = String.date(from: endPicker.date)
+        else {
+            return
+        }
+        print(start)
+        print(end)
+        
         let geoCoder = CLGeocoder()
         geoCoder.geocodeAddressString(address) { (placemarks, error) in
             guard
@@ -157,7 +165,11 @@ class CaptionViewController: UIViewController, UITextViewDelegate {
                 caption: caption,
                 postedDate: stringDate,
                 postUrlString: url.absoluteString,
-                likers: []
+                likers: [],
+                start: start,
+                end: end,
+                addressLat: self.venue.coordinate.latitude,
+                addressLong: self.venue.coordinate.longitude
             )
             
             // Update Database

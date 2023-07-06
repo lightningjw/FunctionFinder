@@ -13,9 +13,21 @@ public struct Post: Codable {
     let postedDate: String
     let postUrlString: String
     var likers: [String]
+    var start: String
+    var end: String
+    var addressLat: Double
+    var addressLong: Double
     
     var date: Date {
         return DateFormatter.formatter.date(from: postedDate) ?? Date()
+    }
+    
+    var startTime: Date {
+        return DateFormatter.formatter.date(from: start) ?? Date()
+    }
+    
+    var endTime: Date {
+        return DateFormatter.formatter.date(from: end) ?? Date()
     }
     
     var storageReference: String? {
